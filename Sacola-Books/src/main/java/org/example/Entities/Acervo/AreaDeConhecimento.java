@@ -5,7 +5,8 @@ public class AreaDeConhecimento {
     private String tituloDaArea;
     private String descricao;
 
-    public AreaDeConhecimento(String tituloDaArea, String descricao) {
+    public AreaDeConhecimento(Long idAreaDeConhecimento, String tituloDaArea, String descricao) {
+        this.idAreaDeConhecimento = idAreaDeConhecimento;
         this.tituloDaArea = tituloDaArea;
         this.descricao = descricao;
     }

@@ -20,7 +20,6 @@ public class BibliotecaDAO implements IBibliotecaDAO {
 
         try (Connection connection = ConnectionFactory.getConnection()) {
             String sql = "INSERT INTO livros (titulo, autor, dataDePublicacao, quantidadeDeCopias) VALUES (?, ?, ?, ?)";
-            String sql2 = "INSERT INTO areasDeConhecimento (titulo, descricao) VALUES (?, ?)";
 
             assert connection != null;
 
@@ -38,17 +37,6 @@ public class BibliotecaDAO implements IBibliotecaDAO {
             rs.next();
             livro.setIdLivro(rs.getLong(1));
 
-            // Inserindo area de conhecimento
-
-            PreparedStatement pstm2 = connection.prepareStatement(sql2, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstm2.setString(1, livro.getAreaDeConhecimento().getTituloDaArea());
-            pstm2.setString(2, livro.getAreaDeConhecimento().getDescricao());
-
-            pstm2.executeUpdate();
-
-            ResultSet rs2 = pstm2.getGeneratedKeys();
-            rs2.next();
-            livro.getAreaDeConhecimento().setIdAreaDeConhecimento(rs2.getLong(1));
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -147,8 +135,81 @@ public class BibliotecaDAO implements IBibliotecaDAO {
     }
 
     @Override
+    public Optional<AreaDeConhecimento> findAreaById(long id) {
+        String sql = "Select * from areaDeConhecimento where idAreaDeConhecimento = ?";
+        AreaDeConhecimento areaDeConhecimento = null;
+
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setLong(1, id);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                Long idAreaDeConhecimento = rs.getLong("idAreaDeConhecimento");
+                String titulo = rs.getString("titulo");
+                String descricao = rs.getString("descricao");
+
+
+                areaDeConhecimento = new AreaDeConhecimento(idAreaDeConhecimento, titulo, descricao);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.ofNullable(areaDeConhecimento);
+    }
+
+    @Override
+    public List<AreaDeConhecimento> findAllAreas() {
+        String sql = "Select * from areasDeConhecimento";
+
+        List<AreaDeConhecimento> areas = new ArrayList<>();
+
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            PreparedStatement pstm = connection.prepareStatement(sql);
+
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                Long id = rs.getLong("idAreaDeConhecimento");
+                String titulo = rs.getString("titulo");
+                String descricao = rs.getString("descricao");
+
+                AreaDeConhecimento areaDeConhecimento = new AreaDeConhecimento(id, titulo, descricao);
+                areas.add(areaDeConhecimento);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return areas;
+    }
+
+    @Override
     public List<Livro> findByAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento) {
-        return null;
+        String sql = "Select * from livros where idAreaDeConhecimento = ?";
+
+        List<Livro> livros = new ArrayList<>();
+
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setLong(1, areaDeConhecimento.getIdAreaDeConhecimento());
+
+            ResultSet rs = pstm.executeQuery();
+
+            while (rs.next()) {
+                Long id = rs.getLong("idLivro");
+                String titulo = rs.getString("titulo");
+                String autor = rs.getString("autor");
+                Date dataDePublicacao = rs.getDate("dataDePublicacao");
+                int quantidadeDeCopias = rs.getInt("quantidadeDeCopias");
+
+                Livro livro = new Livro(id, titulo, autor, dataDePublicacao, quantidadeDeCopias, areaDeConhecimento);
+                livros.add(livro);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return livros;
     }
 }
 

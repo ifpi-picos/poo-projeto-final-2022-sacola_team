@@ -2,14 +2,10 @@ package org.example.Entities.SistemaDasTelas;
 
 import org.example.Dao.BibliotecaDAO;
 import org.example.Entities.Acervo.Livro;
-import org.example.Entities.Usuarios.Aluno;
-import org.example.Entities.Usuarios.Professor;
-import org.example.Entities.Usuarios.Usuario;
-import org.example.Entities.Usuarios.UsuarioComum;
 
 import java.util.List;
 
-public class Biblioteca {
+public class BibliotecaSys {
     BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
 
     public void verAcervo(){

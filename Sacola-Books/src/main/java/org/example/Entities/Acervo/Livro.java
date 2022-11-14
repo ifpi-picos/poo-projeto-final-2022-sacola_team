@@ -8,7 +8,7 @@ public class Livro {
     Long idLivro;
     private String titulo;
     private String autor;
-    private AreaDeConhecimento areaDeConhecimento;
+    private Long IdAreaDeConhecimento;
     private Date dataDePublicacao;
     private int quantidadeDeCopias;
 
@@ -18,7 +18,7 @@ public class Livro {
         this.autor = autor;
         this.dataDePublicacao = dataDePublicacao;
         this.quantidadeDeCopias = quantidadeDeCopias;
-        this.areaDeConhecimento = areaDeConhecimento;
+        this.IdAreaDeConhecimento = areaDeConhecimento.getIdAreaDeConhecimento();
     }
 
     public Long getIdLivro() {
@@ -59,11 +59,11 @@ public class Livro {
         this.quantidadeDeCopias = quantidadeDeCopias;
     }
 
-    public AreaDeConhecimento getAreaDeConhecimento() {
-        return areaDeConhecimento;
+    public Long getIdAreaDeConhecimento() {
+        return IdAreaDeConhecimento;
     }
 
-    public void setAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento) {
-        this.areaDeConhecimento = areaDeConhecimento;
+    public void setIdAreaDeConhecimento(Long idAreaDeConhecimento) {
+        IdAreaDeConhecimento = idAreaDeConhecimento;
     }
 }

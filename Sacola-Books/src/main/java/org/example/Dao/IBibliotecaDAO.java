@@ -12,6 +12,8 @@ public interface IBibliotecaDAO {
     void delete(Long id);
     List<Livro> findAll();
     Optional<Livro> findById(long id);
+    Optional<AreaDeConhecimento> findAreaById(long id);
+    List<AreaDeConhecimento> findAllAreas();
     List<Livro> findByAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento);
 
 }
