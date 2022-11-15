@@ -1,13 +1,10 @@
-package org.example.Dao;
+package org.example.Dao.AcervoDAO;
 
 import org.example.Infra.ConnectionFactory;
 import org.example.Entities.Acervo.AreaDeConhecimento;
 import org.example.Entities.Acervo.Livro;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -93,7 +90,7 @@ public class BibliotecaDAO implements IBibliotecaDAO {
             ResultSet rs = pstm.executeQuery();
 
             while (rs.next()) {
-                Long id = rs.getLong("idLivros");
+                Long id = rs.getLong("idLivro");
                 String titulo = rs.getString("titulo");
                 String autor = rs.getString("autor");
                 Date dataDePublicacao = rs.getDate("dataDePublicacao");
@@ -214,6 +211,60 @@ public class BibliotecaDAO implements IBibliotecaDAO {
             throw new RuntimeException(e);
         }
         return livros;
+    }
+
+    @Override
+    public AreaDeConhecimento save(AreaDeConhecimento areaDeConhecimento) {
+        String sql = "insert into areasDeConhecimento (titulo, descricao) values (?, ?)";
+
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            PreparedStatement pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstm.setString(1, areaDeConhecimento.getTituloDaArea());
+            pstm.setString(2, areaDeConhecimento.getDescricao());
+
+            pstm.executeUpdate();
+
+            try(ResultSet rs = pstm.getGeneratedKeys()) {
+                if (rs.next()) {
+                    Long id = rs.getLong(1);
+                    areaDeConhecimento.setIdAreaDeConhecimento(id);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return areaDeConhecimento;
+    }
+
+    @Override
+    public AreaDeConhecimento update(AreaDeConhecimento areaDeConhecimento) {
+        String sql = "update areaDeConhecimento set titulo = ?, descricao = ? where idAreaDeConhecimento = ?";
+
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setString(1, areaDeConhecimento.getTituloDaArea());
+            pstm.setString(2, areaDeConhecimento.getDescricao());
+            pstm.setLong(3, areaDeConhecimento.getIdAreaDeConhecimento());
+
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return areaDeConhecimento;
+    }
+
+    @Override
+    public void deleteAreaDeConhecimento(Long id) {
+        String sql = "delete from areasDeConhecimento where idAreaDeConhecimento = ?";
+
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setLong(1, id);
+
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

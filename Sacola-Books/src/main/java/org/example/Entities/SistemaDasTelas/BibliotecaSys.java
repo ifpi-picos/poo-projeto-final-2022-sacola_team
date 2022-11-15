@@ -1,6 +1,6 @@
 package org.example.Entities.SistemaDasTelas;
 
-import org.example.Dao.BibliotecaDAO;
+import org.example.Dao.AcervoDAO.BibliotecaDAO;
 import org.example.Entities.Acervo.Livro;
 
 import java.util.List;

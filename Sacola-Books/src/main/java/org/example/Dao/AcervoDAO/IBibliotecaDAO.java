@@ -1,4 +1,4 @@
-package org.example.Dao;
+package org.example.Dao.AcervoDAO;
 
 import org.example.Entities.Acervo.AreaDeConhecimento;
 import org.example.Entities.Acervo.Livro;
@@ -12,8 +12,12 @@ public interface IBibliotecaDAO {
     void delete(Long id);
     List<Livro> findAll();
     Optional<Livro> findById(long id);
+    List<Livro> findByAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento);
+    AreaDeConhecimento save(AreaDeConhecimento areaDeConhecimento);
+    AreaDeConhecimento update(AreaDeConhecimento areaDeConhecimento);
+    void deleteAreaDeConhecimento(Long id);
     Optional<AreaDeConhecimento> findAreaById(long id);
     List<AreaDeConhecimento> findAllAreas();
-    List<Livro> findByAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento);
+
 
 }
