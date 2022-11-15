@@ -3,22 +3,33 @@ package org.example.Entities.Usuarios;
 import java.sql.Date;
 
 public class Usuario {
+    private Long idUsuario;
     private String nome;
     private String email;
     private Date dataDeNascimento;
     private String cpf;
+    private String tipoDeUsuario;
 
-    public Usuario(String nome, String email, Date dataDeNascimento, String cpf) {
+    public Usuario(Long idUsuario, String nome, String email, Date dataDeNascimento, String cpf, String tipoDeUsuario) {
+        this.idUsuario = idUsuario;
         this.nome = nome;
         this.email = email;
         this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
+        this.tipoDeUsuario = tipoDeUsuario;
     }
 
     public boolean isPunido() {
         return false;
     }
 
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
     public String getNome() {
         return nome;
     }
@@ -49,5 +60,13 @@ public class Usuario {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getTipoDeUsuario() {
+        return tipoDeUsuario;
+    }
+
+    public void setTipoDeUsuario(String tipoDeUsuario) {
+        this.tipoDeUsuario = tipoDeUsuario;
     }
 }

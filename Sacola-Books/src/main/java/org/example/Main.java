@@ -7,39 +7,63 @@ import java.text.ParseException;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
-        menu();
+//        menuBiblioteca();
+        menuFuncionario();
     }
-    public static void menu() throws ParseException {
+    public static void menuBiblioteca() throws ParseException {
         FuncionarioSys funcionarioSys = new FuncionarioSys();
         int opcao = JOptionPane.showOptionDialog(null, "Escolha uma opção: ", "Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Cadastrar livro", "Remover livro", "Listar livros", "Cadastrar area de conhecimento", "Remover area de conhecimento", "Listar areas de conhecimento", "Sair do programa"}, null);
         switch (opcao) {
             case 0 -> {
                 funcionarioSys.cadastrarLivro();
-                menu();
+                menuBiblioteca();
             }
             case 1 -> {
                 funcionarioSys.removerLivro();
-                menu();
+                menuBiblioteca();
             }
             case 2 -> {
                 funcionarioSys.listarLivros();
-                menu();
+                menuBiblioteca();
             }
             case 3 -> {
                 funcionarioSys.cadastrarAreaDeConhecimento();
-                menu();
+                menuBiblioteca();
             }
             case 4 -> {
                 funcionarioSys.removerAreaDeConhecimento();
-                menu();
+                menuBiblioteca();
             }
             case 5 -> {
                 funcionarioSys.listarAreasDeConhecimento();
-                menu();
+                menuBiblioteca();
             }
             case 6 -> {
                 System.exit(0);
             }
+            default -> JOptionPane.showMessageDialog(null, "Opção inválida!");
+        }
+    }
+    public static void menuFuncionario() throws ParseException {
+        FuncionarioSys funcionarioSys = new FuncionarioSys();
+        int opcao = JOptionPane.showOptionDialog(null, "Escolha uma opção: ", "Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Cadastrar Usuario", "Remover Usuario", "Listar Usuarios", "Sair do programa"}, null);
+        switch (opcao) {
+            case 0 -> {
+                funcionarioSys.cadastrarUsuario();
+                menuFuncionario();
+            }
+            case 1 -> {
+                funcionarioSys.removerUsuario();
+                menuFuncionario();
+            }
+            case 2 -> {
+                funcionarioSys.listarUsuarios();
+                menuFuncionario();
+            }
+            case 3 -> {
+                System.exit(0);
+            }
+
             default -> JOptionPane.showMessageDialog(null, "Opção inválida!");
         }
     }

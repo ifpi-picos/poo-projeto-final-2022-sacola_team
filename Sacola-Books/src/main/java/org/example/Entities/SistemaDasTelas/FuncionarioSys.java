@@ -1,8 +1,12 @@
 package org.example.Entities.SistemaDasTelas;
 
 import org.example.Dao.AcervoDAO.BibliotecaDAO;
+import org.example.Dao.FuncionariosDAO.UsuarioDAO;
 import org.example.Entities.Acervo.AreaDeConhecimento;
 import org.example.Entities.Acervo.Livro;
+import org.example.Entities.Usuarios.Endereco;
+import org.example.Entities.Usuarios.Telefone;
+import org.example.Entities.Usuarios.Usuario;
 
 import javax.swing.*;
 import java.sql.Date;
@@ -75,6 +79,52 @@ public class FuncionarioSys {
         }
         JOptionPane.showMessageDialog(null, areas);
     }
+
+    // Usuarios
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
+    public void cadastrarUsuario() throws ParseException {
+        String nome = JOptionPane.showInputDialog("Digite o nome do usuario: ");
+        String cpf = JOptionPane.showInputDialog("Digite o cpf do usuario: ");
+        Date dataDeNascimento = InserirDataFormatada();
+        String email = JOptionPane.showInputDialog("Digite o email do usuario: ");
+        String tipoDeUsuario = JOptionPane.showInputDialog("Digite o tipo de usuario: ");
+        Usuario usuario = new Usuario(null, nome, email, dataDeNascimento, cpf, tipoDeUsuario);
+
+        String rua = JOptionPane.showInputDialog("Digite a rua do usuario: ");
+        String numero = JOptionPane.showInputDialog("Digite o numero do usuario: ");
+        String bairro = JOptionPane.showInputDialog("Digite o bairro do usuario: ");
+        String cidade = JOptionPane.showInputDialog("Digite a cidade do usuario: ");
+        String estado = JOptionPane.showInputDialog("Digite o estado do usuario: ");
+        String cep = JOptionPane.showInputDialog("Digite o cep do usuario: ");
+        Endereco endereco = new Endereco(null, rua, numero, bairro, cidade, estado, cep);
+
+        String telefone = JOptionPane.showInputDialog("Digite o telefone do usuario: ");
+        Telefone telefoneUsuario = new Telefone(telefone);
+
+        usuarioDAO.save(usuario);
+        usuarioDAO.saveEndereco(endereco, usuario.getIdUsuario());
+        usuarioDAO.saveTelefone(telefoneUsuario, usuario.getIdUsuario());
+    }
+    public void removerUsuario() {
+        List<Usuario> listaDeUsuarios = usuarioDAO.findAll();
+        StringBuilder usuarios = new StringBuilder();
+        for (Usuario usuario : listaDeUsuarios) {
+            usuarios.append(usuario.getIdUsuario()).append(" - ").append(usuario.getNome()).append("\n");
+        }
+        Long idUsuario = Long.parseLong(JOptionPane.showInputDialog("Digite o ID do usuario que deseja remover: \n" + usuarios));
+        usuarioDAO.delete(idUsuario);
+    }
+
+    public void listarUsuarios() {
+        List<Usuario> listaDeUsuarios = usuarioDAO.findAll();
+        StringBuilder usuarios = new StringBuilder();
+        for (Usuario usuario : listaDeUsuarios) {
+            usuarios.append(usuario.getIdUsuario()).append(" - ").append(usuario.getNome()).append("\n");
+        }
+        JOptionPane.showMessageDialog(null, usuarios);
+    }
+
+
 
     // Auxiliares
     public Date InserirDataFormatada() throws ParseException {

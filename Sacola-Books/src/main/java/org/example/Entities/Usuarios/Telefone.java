@@ -1,5 +1,5 @@
 package org.example.Entities.Usuarios;
 
-public record Telefone(String ddd, String numero) {
+public record Telefone(String numero) {
 }
 
