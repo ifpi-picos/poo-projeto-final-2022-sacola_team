@@ -12,13 +12,13 @@ public class Livro {
     private Date dataDePublicacao;
     private int quantidadeDeCopias;
 
-    public Livro(Long idLivro, String titulo, String autor, Date dataDePublicacao, int quantidadeDeCopias, AreaDeConhecimento areaDeConhecimento) {
+    public Livro(Long idLivro, String titulo, String autor, Long idAreaDeConhecimento, Date dataDePublicacao, int quantidadeDeCopias) {
         this.idLivro = idLivro;
         this.titulo = titulo;
         this.autor = autor;
+        IdAreaDeConhecimento = idAreaDeConhecimento;
         this.dataDePublicacao = dataDePublicacao;
         this.quantidadeDeCopias = quantidadeDeCopias;
-        this.IdAreaDeConhecimento = areaDeConhecimento.getIdAreaDeConhecimento();
     }
 
     public Long getIdLivro() {

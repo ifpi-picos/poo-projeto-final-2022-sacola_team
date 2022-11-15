@@ -19,7 +19,7 @@ public class BibliotecaDAO implements IBibliotecaDAO {
     public Livro save(Livro livro) {
 
         try (Connection connection = ConnectionFactory.getConnection()) {
-            String sql = "INSERT INTO livros (titulo, autor, dataDePublicacao, quantidadeDeCopias) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO livros (titulo, autor, dataDePublicacao, areaDeConhecimento, quantidadeDeCopias) VALUES (?, ?, ?, ?, ?)";
 
             assert connection != null;
 
@@ -29,7 +29,8 @@ public class BibliotecaDAO implements IBibliotecaDAO {
             pstm.setString(1, livro.getTitulo());
             pstm.setString(2, livro.getAutor());
             pstm.setDate(3, new java.sql.Date(livro.getDataDePublicacao().getTime()));
-            pstm.setInt(4, livro.getQuantidadeDeCopias());
+            pstm.setLong(4, livro.getIdAreaDeConhecimento());
+            pstm.setInt(5, livro.getQuantidadeDeCopias());
 
             pstm.executeUpdate();
 
@@ -96,10 +97,11 @@ public class BibliotecaDAO implements IBibliotecaDAO {
                 String titulo = rs.getString("titulo");
                 String autor = rs.getString("autor");
                 Date dataDePublicacao = rs.getDate("dataDePublicacao");
+                Long idAreaDeConhecimento = rs.getLong("areaDeConhecimento");
                 int quantidadeDeCopias = rs.getInt("quantidadeDeCopias");
 
-//                Livro livro = new Livro(id, titulo, autor, dataDePublicacao, quantidadeDeCopias, areaDeConhecimento);
-//                livros.add(livro);
+                Livro livro = new Livro(id, titulo, autor, idAreaDeConhecimento, dataDePublicacao, quantidadeDeCopias);
+                livros.add(livro);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -122,10 +124,11 @@ public class BibliotecaDAO implements IBibliotecaDAO {
                 Long idLivro = rs.getLong("idLivros");
                 String titulo = rs.getString("titulo");
                 String autor = rs.getString("autor");
+                Long idAreaDeConhecimento = rs.getLong("areaDeConhecimento");
                 Date dataDePublicacao = rs.getDate("dataDePublicacao");
                 int quantidadeDeCopias = rs.getInt("quantidadeDeCopias");
 
-//                livro = new Livro(idLivro, titulo, autor, dataDePublicacao, quantidadeDeCopias);
+                livro = new Livro(idLivro, titulo, autor, idAreaDeConhecimento, dataDePublicacao, quantidadeDeCopias);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -200,10 +203,11 @@ public class BibliotecaDAO implements IBibliotecaDAO {
                 Long id = rs.getLong("idLivro");
                 String titulo = rs.getString("titulo");
                 String autor = rs.getString("autor");
+                Long idAreaDeConhecimento = rs.getLong("idAreaDeConhecimento");
                 Date dataDePublicacao = rs.getDate("dataDePublicacao");
                 int quantidadeDeCopias = rs.getInt("quantidadeDeCopias");
 
-                Livro livro = new Livro(id, titulo, autor, dataDePublicacao, quantidadeDeCopias, areaDeConhecimento);
+                Livro livro = new Livro(id, titulo, autor, idAreaDeConhecimento, dataDePublicacao, quantidadeDeCopias);
                 livros.add(livro);
             }
         } catch (SQLException e) {
