@@ -91,7 +91,7 @@ public class FuncionarioSys {
         Usuario usuario = new Usuario(null, nome, email, dataDeNascimento, cpf, tipoDeUsuario);
 
         String rua = JOptionPane.showInputDialog("Digite a rua do usuario: ");
-        String numero = JOptionPane.showInputDialog("Digite o numero do usuario: ");
+        String numero = JOptionPane.showInputDialog("Digite o numero da casa do usuario: ");
         String bairro = JOptionPane.showInputDialog("Digite o bairro do usuario: ");
         String cidade = JOptionPane.showInputDialog("Digite a cidade do usuario: ");
         String estado = JOptionPane.showInputDialog("Digite o estado do usuario: ");

@@ -195,12 +195,12 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public Telefone saveTelefone(Telefone telefone, Long idUsuario) {
         try(Connection connection = ConnectionFactory.getConnection()){
-            String sql = "INSERT INTO telefones (numero, idUsuario) VALUES (?, ?)";
+            String sql = "INSERT INTO telefones (idUsuario, numero) VALUES (?, ?)";
 
             assert connection != null;
             PreparedStatement pstm = connection.prepareStatement(sql);
-            pstm.setString(1, telefone.numero());
-            pstm.setLong(2, idUsuario);
+            pstm.setLong(1, idUsuario);
+            pstm.setString(2, telefone.numero());
             pstm.executeUpdate();
 
         } catch (SQLException e) {
