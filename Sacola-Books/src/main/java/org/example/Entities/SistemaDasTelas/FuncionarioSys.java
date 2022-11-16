@@ -9,6 +9,7 @@ import org.example.Entities.Usuarios.Telefone;
 import org.example.Entities.Usuarios.Usuario;
 
 import javax.swing.*;
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -87,7 +88,10 @@ public class FuncionarioSys {
         String cpf = JOptionPane.showInputDialog("Digite o cpf do usuario: ");
         Date dataDeNascimento = InserirDataFormatada();
         String email = JOptionPane.showInputDialog("Digite o email do usuario: ");
-        String tipoDeUsuario = JOptionPane.showInputDialog("Digite o tipo de usuario: ");
+        String[] tiposDeUsuario = {"Aluno", "Professor", "Usuario Comum"};
+        String tipoDeUsuario = (String) JOptionPane.showInputDialog(null, "Selecione o tipo de usuario: ", "Tipo de usuario", JOptionPane.QUESTION_MESSAGE, null, tiposDeUsuario, tiposDeUsuario[0]);
+        
+
         Usuario usuario = new Usuario(null, nome, email, dataDeNascimento, cpf, tipoDeUsuario);
 
         String rua = JOptionPane.showInputDialog("Digite a rua do usuario: ");
