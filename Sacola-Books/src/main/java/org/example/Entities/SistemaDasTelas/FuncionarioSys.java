@@ -1,7 +1,7 @@
 package org.example.Entities.SistemaDasTelas;
 
 import org.example.Dao.AcervoDAO.BibliotecaDAO;
-import org.example.Dao.FuncionariosDAO.UsuarioDAO;
+import org.example.Dao.UsuariosDAO.UsuarioDAO;
 import org.example.Entities.Acervo.AreaDeConhecimento;
 import org.example.Entities.Acervo.Livro;
 import org.example.Entities.Usuarios.Endereco;
@@ -23,7 +23,8 @@ public class FuncionarioSys {
     public void cadastrarLivro() throws ParseException {
         String titulo = JOptionPane.showInputDialog("Digite o titulo do livro: ");
         String autor = JOptionPane.showInputDialog("Digite o autor do livro: ");
-        Date dataDePublicacao = InserirDataFormatada();
+        String dataDePublicacao = JOptionPane.showInputDialog("Digite a data de publicacao do livro: ");
+        Date dataDePublicacaoFormatada = InserirDataFormatada(dataDePublicacao);
 
         List<AreaDeConhecimento> listaDeAreas = bibliotecaDAO.findAllAreas();
         StringBuilder areas = new StringBuilder();
@@ -33,7 +34,7 @@ public class FuncionarioSys {
         Long areaDeConhecimento = Long.parseLong(JOptionPane.showInputDialog("Digite o ID da area de conhecimento do livro: \n" + areas));
         int quantidadeDeCopias = Integer.parseInt(JOptionPane.showInputDialog("Digite a quantidade de cópias do livro: "));
 
-        Livro livro = new Livro(null, titulo, autor, areaDeConhecimento, dataDePublicacao, quantidadeDeCopias);
+        Livro livro = new Livro(null, titulo, autor, areaDeConhecimento, dataDePublicacaoFormatada, quantidadeDeCopias);
         bibliotecaDAO.save(livro);
     }
     public void removerLivro() {
@@ -86,13 +87,14 @@ public class FuncionarioSys {
     public void cadastrarUsuario() throws ParseException {
         String nome = JOptionPane.showInputDialog("Digite o nome do usuario: ");
         String cpf = JOptionPane.showInputDialog("Digite o cpf do usuario: ");
-        Date dataDeNascimento = InserirDataFormatada();
+        String dataDeNascimento = JOptionPane.showInputDialog("Digite a data de nascimento do usuario: ");
+        Date dataDeNascimentoFormatada = InserirDataFormatada(dataDeNascimento);
         String email = JOptionPane.showInputDialog("Digite o email do usuario: ");
         String[] tiposDeUsuario = {"Aluno", "Professor", "Usuario Comum"};
         String tipoDeUsuario = (String) JOptionPane.showInputDialog(null, "Selecione o tipo de usuario: ", "Tipo de usuario", JOptionPane.QUESTION_MESSAGE, null, tiposDeUsuario, tiposDeUsuario[0]);
         
 
-        Usuario usuario = new Usuario(null, nome, email, dataDeNascimento, cpf, tipoDeUsuario);
+        Usuario usuario = new Usuario(null, nome, email, dataDeNascimentoFormatada, cpf, tipoDeUsuario);
 
         String rua = JOptionPane.showInputDialog("Digite a rua do usuario: ");
         String numero = JOptionPane.showInputDialog("Digite o numero da casa do usuario: ");
@@ -131,8 +133,7 @@ public class FuncionarioSys {
 
 
     // Auxiliares
-    public Date InserirDataFormatada() throws ParseException {
-        String startDate = JOptionPane.showInputDialog("Digite a data de publicação do livro: ");
+    public static Date InserirDataFormatada(String startDate) throws ParseException {
         String[] data = startDate.split("/");
         String dia = data[0];
         String mes = data[1];

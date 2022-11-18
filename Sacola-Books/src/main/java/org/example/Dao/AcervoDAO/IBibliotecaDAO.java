@@ -15,7 +15,7 @@ public interface IBibliotecaDAO {
 
     List<Livro> findAll();
 
-    Optional<Livro> findById(long id);
+    Optional<Livro> findLivroById(long id);
 
     List<Livro> findByAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento);
 

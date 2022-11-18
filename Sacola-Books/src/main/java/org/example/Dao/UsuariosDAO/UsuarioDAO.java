@@ -1,4 +1,4 @@
-package org.example.Dao.FuncionariosDAO;
+package org.example.Dao.UsuariosDAO;
 
 import org.example.Entities.Usuarios.Endereco;
 import org.example.Entities.Usuarios.Telefone;

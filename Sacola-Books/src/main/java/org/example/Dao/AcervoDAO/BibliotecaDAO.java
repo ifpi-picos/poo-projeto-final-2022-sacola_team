@@ -107,7 +107,7 @@ public class BibliotecaDAO implements IBibliotecaDAO {
     }
 
     @Override
-    public Optional<Livro> findById(long id) {
+    public Optional<Livro> findLivroById(long id) {
         String sql = "Select * from livros where idLivro = ?";
         Livro livro = null;
 
@@ -118,7 +118,7 @@ public class BibliotecaDAO implements IBibliotecaDAO {
             ResultSet rs = pstm.executeQuery();
 
             if (rs.next()) {
-                Long idLivro = rs.getLong("idLivros");
+                Long idLivro = rs.getLong("idLivro");
                 String titulo = rs.getString("titulo");
                 String autor = rs.getString("autor");
                 Long idAreaDeConhecimento = rs.getLong("areaDeConhecimento");

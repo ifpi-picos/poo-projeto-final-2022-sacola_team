@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Entities.SistemaDasTelas.BibliotecaSys;
 import org.example.Entities.SistemaDasTelas.FuncionarioSys;
 
 import javax.swing.*;
@@ -7,38 +8,47 @@ import java.text.ParseException;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
-//        menuBiblioteca();
-        menuFuncionario();
+        menuBiblioteca();
+//        menuFuncionario();
     }
     public static void menuBiblioteca() throws ParseException {
         FuncionarioSys funcionarioSys = new FuncionarioSys();
-        int opcao = JOptionPane.showOptionDialog(null, "Escolha uma opção: ", "Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Cadastrar livro", "Remover livro", "Listar livros", "Cadastrar area de conhecimento", "Remover area de conhecimento", "Listar areas de conhecimento", "Sair do programa"}, null);
+        BibliotecaSys bibliotecaSys = new BibliotecaSys();
+        int opcao = JOptionPane.showOptionDialog(null, "Escolha uma opção: ", "Menu", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Emprestar livro", "Devolver livro", "Cadastrar livro", "Remover livro", "Listar livros", "Cadastrar area de conhecimento", "Remover area de conhecimento", "Listar areas de conhecimento", "Sair do programa"}, null);
         switch (opcao) {
             case 0 -> {
-                funcionarioSys.cadastrarLivro();
+                bibliotecaSys.emprestarLivro();
                 menuBiblioteca();
             }
             case 1 -> {
-                funcionarioSys.removerLivro();
+                bibliotecaSys.devolverLivro();
                 menuBiblioteca();
             }
             case 2 -> {
-                funcionarioSys.listarLivros();
+                funcionarioSys.cadastrarLivro();
                 menuBiblioteca();
             }
             case 3 -> {
-                funcionarioSys.cadastrarAreaDeConhecimento();
+                funcionarioSys.removerLivro();
                 menuBiblioteca();
             }
             case 4 -> {
-                funcionarioSys.removerAreaDeConhecimento();
+                funcionarioSys.listarLivros();
                 menuBiblioteca();
             }
             case 5 -> {
-                funcionarioSys.listarAreasDeConhecimento();
+                funcionarioSys.cadastrarAreaDeConhecimento();
                 menuBiblioteca();
             }
             case 6 -> {
+                funcionarioSys.removerAreaDeConhecimento();
+                menuBiblioteca();
+            }
+            case 7 -> {
+                funcionarioSys.listarAreasDeConhecimento();
+                menuBiblioteca();
+            }
+            case 8 -> {
                 System.exit(0);
             }
             default -> JOptionPane.showMessageDialog(null, "Opção inválida!");
