@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Objects;
 import java.util.Vector;
 
 public class RegisterBookForm extends JDialog {
@@ -68,15 +69,14 @@ public class RegisterBookForm extends JDialog {
 
 
     private void cadastrarLivro() throws ParseException {
+        BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         FuncionarioSys funcionarioSys = new FuncionarioSys();
 
         String titulo = txtTitulo.getText();
         String autor = txtAutor.getText();
         String dataDePublicacao = txtFormattedDataDePublicacao.getText();
         int quantidadeDeCopias = (int) spinnerQuantidadeDeCopias.getValue();
-        String areaDeConhecimento = comboBoxAreaDeConhecimento.getModel().toString();
-
-        BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+        String areaDeConhecimento = Objects.requireNonNull(comboBoxAreaDeConhecimento.getSelectedItem()).toString();
         Long idAreaDeConhecimento = bibliotecaDAO.findIdAreaByTitulo(areaDeConhecimento);
 
         funcionarioSys.cadastrarLivro(titulo, autor, idAreaDeConhecimento, dataDePublicacao, quantidadeDeCopias);

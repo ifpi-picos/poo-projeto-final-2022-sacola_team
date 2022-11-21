@@ -26,6 +26,7 @@ public class FuncionarioSys {
         Livro livro = new Livro(null, titulo, autor, areaDeConhecimento, dataDePublicacaoFormatada, quantidadeDeCopias);
         bibliotecaDAO.save(livro);
     }
+
     public void removerLivro() {
         List<Livro> listaDeLivros = bibliotecaDAO.findAll();
         StringBuilder livros = new StringBuilder();
