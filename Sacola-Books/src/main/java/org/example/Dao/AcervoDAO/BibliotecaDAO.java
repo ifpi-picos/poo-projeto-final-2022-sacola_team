@@ -197,6 +197,26 @@ public class BibliotecaDAO implements IBibliotecaDAO {
 
     }
 
+    public Long findIdAreaByTitulo(String titulo) {
+        String sql = "Select idAreaDeConhecimento from areasDeConhecimento where titulo = ?";
+        Connection connection = ConnectionFactory.getConnection();
+        Long id = null;
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setString(1, titulo);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if (rs.next()) {
+                id = rs.getLong("idAreaDeConhecimento");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return id;
+    }
+
     @Override
     public List<Livro> findByAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento) {
         String sql = "Select * from livros where idAreaDeConhecimento = ?";

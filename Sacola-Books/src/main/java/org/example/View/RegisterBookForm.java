@@ -74,9 +74,12 @@ public class RegisterBookForm extends JDialog {
         String autor = txtAutor.getText();
         String dataDePublicacao = txtFormattedDataDePublicacao.getText();
         int quantidadeDeCopias = (int) spinnerQuantidadeDeCopias.getValue();
-        Long areaDeConhecimento = (long) comboBoxAreaDeConhecimento.getSelectedIndex() + 1;
+        String areaDeConhecimento = comboBoxAreaDeConhecimento.getModel().toString();
 
-        funcionarioSys.cadastrarLivro(titulo, autor, areaDeConhecimento, dataDePublicacao, quantidadeDeCopias);
+        BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+        Long idAreaDeConhecimento = bibliotecaDAO.findIdAreaByTitulo(areaDeConhecimento);
+
+        funcionarioSys.cadastrarLivro(titulo, autor, idAreaDeConhecimento, dataDePublicacao, quantidadeDeCopias);
     }
 
 

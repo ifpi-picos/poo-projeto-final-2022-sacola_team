@@ -53,8 +53,12 @@ public class FuncionarioSys {
     public void cadastrarAreaDeConhecimento() {
         String tituloDaArea = JOptionPane.showInputDialog("Digite o titulo da area de conhecimento: ");
         String descricaoDaArea = JOptionPane.showInputDialog("Digite a descricao da area de conhecimento: ");
-        AreaDeConhecimento areaDeConhecimento = new AreaDeConhecimento(null, tituloDaArea, descricaoDaArea);
-        bibliotecaDAO.save(areaDeConhecimento);
+        if (tituloDaArea != null && descricaoDaArea != null) {
+            AreaDeConhecimento areaDeConhecimento = new AreaDeConhecimento(null, tituloDaArea, descricaoDaArea);
+            bibliotecaDAO.save(areaDeConhecimento);
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar area de conhecimento, campos vazios");
+        }
     }
 
     public void removerAreaDeConhecimento() {
