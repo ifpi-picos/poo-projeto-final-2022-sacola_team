@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.Vector;
 
 public class GerenciarAcervo extends JDialog {
@@ -36,32 +37,34 @@ public class GerenciarAcervo extends JDialog {
         this.setLocationRelativeTo(null);
 
 
-        btnVerAcervo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                verAcervo();
+        btnVerAcervo.addActionListener(e -> verAcervo());
+        btnVoltar.addActionListener(e -> voltar());
+        btnCadastrarLivro.addActionListener(e -> cadastrarLivro());
+        btnAdicionarConhecimento.addActionListener(e -> funcionarioSys.cadastrarAreaDeConhecimento());
+        btnRemoverAreaConhecimento.addActionListener(e -> funcionarioSys.removerAreaDeConhecimento());
+        EMPRESTARLIVROButton.addActionListener(e -> {
+            try {
+                bibliotecaSys.emprestarLivro();
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
             }
         });
-        btnVoltar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                voltar();
+        btnDevolverLivro.addActionListener(e -> {
+            try {
+                bibliotecaSys.devolverLivro();
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
             }
         });
-        btnCadastrarLivro.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cadastrarLivro();
-            }
-        });
+        btnRemoverLivro.addActionListener(e -> funcionarioSys.removerLivro());
     }
+
+
 
     private void cadastrarLivro() {
         RegisterBookForm registerBookForm = new RegisterBookForm(null);
         registerBookForm.setVisible(true);
     }
-
-
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("GerenciarAcervo");
