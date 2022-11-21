@@ -20,19 +20,8 @@ public class FuncionarioSys {
 
 
     // Livros
-    public void cadastrarLivro() throws ParseException {
-        String titulo = JOptionPane.showInputDialog("Digite o titulo do livro: ");
-        String autor = JOptionPane.showInputDialog("Digite o autor do livro: ");
-        String dataDePublicacao = JOptionPane.showInputDialog("Digite a data de publicacao do livro: ");
+    public void cadastrarLivro(String titulo, String autor, Long areaDeConhecimento, String dataDePublicacao, int quantidadeDeCopias) throws ParseException {
         Date dataDePublicacaoFormatada = InserirDataFormatada(dataDePublicacao);
-
-        List<AreaDeConhecimento> listaDeAreas = bibliotecaDAO.findAllAreas();
-        StringBuilder areas = new StringBuilder();
-        for (AreaDeConhecimento areaDeConhecimento : listaDeAreas) {
-            areas.append(areaDeConhecimento.getIdAreaDeConhecimento()).append(" - ").append(areaDeConhecimento.getTituloDaArea()).append("\n");
-        }
-        Long areaDeConhecimento = Long.parseLong(JOptionPane.showInputDialog("Digite o ID da area de conhecimento do livro: \n" + areas));
-        int quantidadeDeCopias = Integer.parseInt(JOptionPane.showInputDialog("Digite a quantidade de cópias do livro: "));
 
         Livro livro = new Livro(null, titulo, autor, areaDeConhecimento, dataDePublicacaoFormatada, quantidadeDeCopias);
         bibliotecaDAO.save(livro);
@@ -51,7 +40,11 @@ public class FuncionarioSys {
         List<Livro> listaDeLivros = bibliotecaDAO.findAll();
         StringBuilder livros = new StringBuilder();
         for (Livro livro : listaDeLivros) {
-            livros.append(livro.getIdLivro()).append(" - ").append(livro.getTitulo()).append("\n");
+            livros.append(livro.getIdLivro())
+                    .append(" - ").append(livro.getTitulo())
+                    .append(livro.getAutor())
+                    .append(" - ").append(livro.getDataDePublicacao())
+                    .append(" - ").append(livro.getQuantidadeDeCopias()).append("\n");
         }
         JOptionPane.showMessageDialog(null, livros);
     }

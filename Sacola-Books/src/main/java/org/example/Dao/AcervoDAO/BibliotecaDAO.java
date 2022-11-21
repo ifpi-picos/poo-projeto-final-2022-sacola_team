@@ -184,6 +184,19 @@ public class BibliotecaDAO implements IBibliotecaDAO {
         return areas;
     }
 
+    public ResultSet findAllAreasForComboBox() {
+        String sql = "Select * from areasDeConhecimento";
+        Connection connection = ConnectionFactory.getConnection();
+
+        try {
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            return pstm.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     @Override
     public List<Livro> findByAreaDeConhecimento(AreaDeConhecimento areaDeConhecimento) {
         String sql = "Select * from livros where idAreaDeConhecimento = ?";

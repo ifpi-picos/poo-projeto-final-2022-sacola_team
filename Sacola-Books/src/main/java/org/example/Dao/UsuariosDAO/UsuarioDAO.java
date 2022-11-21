@@ -1,9 +1,11 @@
 package org.example.Dao.UsuariosDAO;
 
 import org.example.Entities.Usuarios.Endereco;
+import org.example.Entities.Usuarios.Professor;
 import org.example.Entities.Usuarios.Telefone;
 import org.example.Entities.Usuarios.Usuario;
 import org.example.Infra.ConnectionFactory;
+import org.example.View.FuncionarioForm;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -217,6 +219,60 @@ public class UsuarioDAO implements IUsuarioDAO {
     @Override
     public void deleteTelefone(Long id) {
 
+    }
+
+    // Métodos para o login
+
+    public ResultSet autenticarUsuario(String usuario, String senha) {
+        ResultSet rs = null;
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "SELECT * FROM usuarios WHERE usuario = ? AND senha = ?";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setString(1, usuario);
+            pstm.setString(2, senha);
+
+            rs = pstm.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rs;
+    }
+
+    public void RealizarLogin(Long id) {
+        try(Connection connection = ConnectionFactory.getConnection()) {
+            String sql = "SELECT * FROM usuarios WHERE idUsuario = ?";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setLong(1, id);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if(rs.next()) {
+                String tipoDeUsuario = rs.getString("tipoDeUsuario");
+                switch (tipoDeUsuario) {
+                    case "Funcionario":
+                        FuncionarioForm funcionarioForm = new FuncionarioForm(null);
+                        funcionarioForm.setVisible(true);
+
+                        break;
+                    case "Professor":
+
+                        break;
+                    case "Aluno":
+
+                        break;
+                    case "Usuario Comum":
+
+                        break;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
