@@ -11,8 +11,9 @@ import java.awt.event.ActionListener;
 public class FuncionarioForm extends JDialog {
     private JButton gerenciarAcervoButton;
     private JButton gerenciarUsuariosButton;
-    private JLabel MainPanel;
     private JButton SAIRButton;
+    private JPanel MainPanel;
+
 
     public FuncionarioForm(JFrame parent) {
         super(parent, "FuncionarioForm", true);
@@ -20,7 +21,6 @@ public class FuncionarioForm extends JDialog {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.pack();
         this.setLocationRelativeTo(null);
-        this.setVisible(true);
 
 
         gerenciarAcervoButton.addActionListener(new ActionListener() {
@@ -28,12 +28,15 @@ public class FuncionarioForm extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 GerenciarAcervo gerenciarAcervo = new GerenciarAcervo(null);
                 gerenciarAcervo.setVisible(true);
+                dispose();
             }
         });
         gerenciarUsuariosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                GerenciarUsuarios gerenciarUsuarios = new GerenciarUsuarios(null);
+                gerenciarUsuarios.setVisible(true);
+                dispose();
             }
         });
         SAIRButton.addActionListener(new ActionListener() {
@@ -42,6 +45,11 @@ public class FuncionarioForm extends JDialog {
                 dispose();
             }
         });
+    }
+
+    public static void main(String[] args) {
+        FuncionarioForm funcionarioForm = new FuncionarioForm(null);
+        funcionarioForm.setVisible(true);
     }
 
     {
@@ -59,19 +67,27 @@ public class FuncionarioForm extends JDialog {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, -1));
-        MainPanel = new JLabel();
-        MainPanel.setText("Bem vindo(a) ao Sacola Books");
-        panel1.add(MainPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel = new JPanel();
+        MainPanel.setLayout(new GridLayoutManager(4, 1, new Insets(20, 20, 20, 20), -1, -1));
         gerenciarAcervoButton = new JButton();
         gerenciarAcervoButton.setText("Gerenciar Acervo");
-        panel1.add(gerenciarAcervoButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel.add(gerenciarAcervoButton, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         gerenciarUsuariosButton = new JButton();
         gerenciarUsuariosButton.setText("Gerenciar Usuarios");
-        panel1.add(gerenciarUsuariosButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel.add(gerenciarUsuariosButton, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         SAIRButton = new JButton();
         SAIRButton.setText("SAIR");
-        panel1.add(SAIRButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel.add(SAIRButton, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label1 = new JLabel();
+        label1.setText("Bem vindo(a) ao Sacola Books");
+        MainPanel.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$() {
+        return MainPanel;
+    }
+
 }

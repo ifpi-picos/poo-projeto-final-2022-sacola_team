@@ -1,0 +1,62 @@
+JFDML JFormDesigner: "8.0.0.0.194" Java: "17.0.4.1" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+				name: "dialogPane"
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+					name: "panel1"
+					add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+						"$horizontalGroup": "par l {seq t {space :0:199:x, comp btnVoltar:::p::p, space :p:195:p}, seq {par l {seq {space :p:20:p, par t {comp button3:::p::p, comp btnCadastrar:::p::p}, space :p:29:p, par l {comp button2:::p::p, comp button4:::p::p}}, seq l {space :p:208:p, comp label1:::p::p}}, space ::25:x}}"
+						"$verticalGroup": "par l {seq l {space :p:16:p, comp label1:::p::p, space :p:86:p, par b {comp btnCadastrar::b:p::p, comp button2::b:p::p}, space :p:68:p, par b {comp button3::b:p::p, comp button4::b:::x}, space :p:106:p, comp btnVoltar:::p::p, space ::165:x}}"
+					} ) {
+						name: "contentPanel"
+						add( new FormComponent( "javax.swing.JLabel" ) {
+							name: "label1"
+							"text": "Usuários"
+							"font": new com.jformdesigner.model.SwingDerivedFont( "JetBrains Mono", 0, 18, true )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnCadastrar"
+							"text": "CADASTRAR USUÁRIO"
+							"font": &Font0 new java.awt.Font( "Yu Gothic UI", 1, 18 )
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "button2"
+							"text": "ALTERAR USUÁRIO"
+							"font": #Font0
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "button3"
+							"text": "REMOVER USUÁRIO"
+							"font": #Font0
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "button4"
+							"text": "LISTAR USUÁRIO"
+							"font": #Font0
+						} )
+						add( new FormComponent( "javax.swing.JButton" ) {
+							name: "btnVoltar"
+							"text": "VOLTAR"
+							"font": #Font0
+							addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "btnVoltar", true ) )
+						} )
+					}, new FormLayoutConstraints( class java.lang.String ) {
+						"value": "Center"
+					} )
+				}, new FormLayoutConstraints( class java.lang.String ) {
+					"value": "Center"
+				} )
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 65, 0 )
+			"size": new java.awt.Dimension( 510, 590 )
+		} )
+	}
+}
