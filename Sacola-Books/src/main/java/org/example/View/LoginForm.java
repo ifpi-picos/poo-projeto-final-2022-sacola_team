@@ -60,6 +60,7 @@ public class LoginForm extends JDialog {
         try {
             UsuarioDAO dao = new UsuarioDAO();
             ResultSet rs = dao.autenticarUsuario(tfUsuario.getText(), String.valueOf(pfSenha.getPassword()));
+            dispose();
 
             if (rs.next()) {
                 Long id = rs.getLong("idUsuario");
@@ -70,7 +71,9 @@ public class LoginForm extends JDialog {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao autenticar usuário: " + e.getMessage());
         }
+
     }
+
 
 
     {

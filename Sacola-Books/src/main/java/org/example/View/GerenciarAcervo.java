@@ -80,7 +80,9 @@ public class GerenciarAcervo extends JDialog {
 
     private void voltar() {
         FuncionarioForm funcionarioForm = new FuncionarioForm(null);
+        dispose();
         funcionarioForm.setVisible(true);
+
     }
 
 

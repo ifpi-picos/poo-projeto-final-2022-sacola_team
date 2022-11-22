@@ -19,9 +19,11 @@ public class GerenciarUsuarios extends JDialog {
 
     private void btnVoltar(ActionEvent e) {
         FuncionarioForm funcionarioForm = new FuncionarioForm(null);
-        funcionarioForm.setVisible(true);
         this.dispose();
+        funcionarioForm.setVisible(true);
+
     }
+
 
 
 
