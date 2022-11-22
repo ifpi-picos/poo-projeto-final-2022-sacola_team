@@ -225,8 +225,9 @@ public class UsuarioDAO implements IUsuarioDAO {
 
     public ResultSet autenticarUsuario(String usuario, String senha) {
         ResultSet rs = null;
-        try(Connection connection = ConnectionFactory.getConnection()){
-            String sql = "SELECT * FROM usuarios WHERE usuario = ? AND senha = ?";
+        Connection connection = ConnectionFactory.getConnection();
+        try{
+            String sql = "SELECT * FROM logins WHERE usuario = ? AND senha = ?";
 
             assert connection != null;
             PreparedStatement pstm = connection.prepareStatement(sql);
