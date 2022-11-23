@@ -40,14 +40,11 @@ public class RegisterBookForm extends JDialog {
         this.pack();
         this.setLocationRelativeTo(null);
 
-        CADASTRARButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    cadastrarLivro();
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
+        CADASTRARButton.addActionListener(e -> {
+            try {
+                cadastrarLivro();
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
             }
         });
     }

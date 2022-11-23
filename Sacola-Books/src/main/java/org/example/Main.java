@@ -1,15 +1,11 @@
 package org.example;
 
-
-
-
-import org.example.Entities.SistemaDasTelas.FuncionarioSys;
+import org.example.View.LoginForm;
 
 import java.text.ParseException;
 
 public class Main {
     public static void main(String[] args) throws ParseException {
-        FuncionarioSys funcionarioSys = new FuncionarioSys();
-        funcionarioSys.listarLivros();
+        LoginForm loginForm = new LoginForm(null);
     }
 }
