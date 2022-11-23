@@ -82,32 +82,15 @@ public class FuncionarioSys {
 
     // Usuarios
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-    public void cadastrarUsuario() throws ParseException {
-        String nome = JOptionPane.showInputDialog("Digite o nome do usuario: ");
-        String cpf = JOptionPane.showInputDialog("Digite o cpf do usuario: ");
-        String dataDeNascimento = JOptionPane.showInputDialog("Digite a data de nascimento do usuario: ");
-        Date dataDeNascimentoFormatada = InserirDataFormatada(dataDeNascimento);
-        String email = JOptionPane.showInputDialog("Digite o email do usuario: ");
-        String[] tiposDeUsuario = {"Aluno", "Professor", "Usuario Comum"};
-        String tipoDeUsuario = (String) JOptionPane.showInputDialog(null, "Selecione o tipo de usuario: ", "Tipo de usuario", JOptionPane.QUESTION_MESSAGE, null, tiposDeUsuario, tiposDeUsuario[0]);
-        
-
-        Usuario usuario = new Usuario(null, nome, email, dataDeNascimentoFormatada, cpf, tipoDeUsuario);
-
-        String rua = JOptionPane.showInputDialog("Digite a rua do usuario: ");
-        String numero = JOptionPane.showInputDialog("Digite o numero da casa do usuario: ");
-        String bairro = JOptionPane.showInputDialog("Digite o bairro do usuario: ");
-        String cidade = JOptionPane.showInputDialog("Digite a cidade do usuario: ");
-        String estado = JOptionPane.showInputDialog("Digite o estado do usuario: ");
-        String cep = JOptionPane.showInputDialog("Digite o cep do usuario: ");
-        Endereco endereco = new Endereco(null, rua, numero, bairro, cidade, estado, cep);
-
-        String telefone = JOptionPane.showInputDialog("Digite o telefone do usuario: ");
-        Telefone telefoneUsuario = new Telefone(telefone);
-
-        usuarioDAO.save(usuario);
-        usuarioDAO.saveEndereco(endereco, usuario.getIdUsuario());
-        usuarioDAO.saveTelefone(telefoneUsuario, usuario.getIdUsuario());
+    public boolean CadastrarUsuario(Usuario usuario, Endereco endereco, Telefone telefoneUsuario) throws ParseException {
+        if (usuario != null && endereco != null && telefoneUsuario != null) {
+            usuarioDAO.save(usuario);
+            usuarioDAO.saveEndereco(endereco, usuario.getIdUsuario());
+            usuarioDAO.saveTelefone(telefoneUsuario, usuario.getIdUsuario());
+            return true;
+        } else {
+            return false;
+        }
     }
     public void removerUsuario() {
         List<Usuario> listaDeUsuarios = usuarioDAO.findAll();

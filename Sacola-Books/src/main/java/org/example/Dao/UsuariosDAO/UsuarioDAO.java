@@ -223,6 +223,22 @@ public class UsuarioDAO implements IUsuarioDAO {
 
     // Métodos para o login
 
+    public void CriarLogin(Usuario Idusuario,String usuario, String senha) {
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "INSERT INTO logins (idUsuario, usuario, senha) VALUES (?, ?, ?)";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setLong(1, Idusuario.getIdUsuario());
+            pstm.setString(2, usuario);
+            pstm.setString(3, senha);
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public ResultSet autenticarUsuario(String usuario, String senha) {
         ResultSet rs = null;
         Connection connection = ConnectionFactory.getConnection();

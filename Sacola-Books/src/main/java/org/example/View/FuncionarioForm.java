@@ -34,9 +34,8 @@ public class FuncionarioForm extends JDialog {
         gerenciarUsuariosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GerenciarUsuarios gerenciarUsuarios = new GerenciarUsuarios(null);
-                gerenciarUsuarios.setVisible(true);
-                dispose();
+//                GerenciarUsuario gerenciarUsuario = new GerenciarUsuario(null);
+//                gerenciarUsuario.setVisible(true);
             }
         });
         SAIRButton.addActionListener(new ActionListener() {
