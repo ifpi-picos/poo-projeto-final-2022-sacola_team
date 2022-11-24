@@ -43,7 +43,7 @@ public class FuncionarioSys {
         for (Livro livro : listaDeLivros) {
             livros.append(livro.getIdLivro())
                     .append(" - ").append(livro.getTitulo())
-                    .append(livro.getAutor())
+                    .append(" - ").append(livro.getAutor())
                     .append(" - ").append(livro.getDataDePublicacao())
                     .append(" - ").append(livro.getQuantidadeDeCopias()).append("\n");
         }

@@ -76,6 +76,7 @@ public class RegisterBookForm extends JDialog {
         String areaDeConhecimento = Objects.requireNonNull(comboBoxAreaDeConhecimento.getSelectedItem()).toString();
         Long idAreaDeConhecimento = bibliotecaDAO.findIdAreaByTitulo(areaDeConhecimento);
 
+
         funcionarioSys.cadastrarLivro(titulo, autor, idAreaDeConhecimento, dataDePublicacao, quantidadeDeCopias);
     }
 
