@@ -31,6 +31,8 @@ public class LoginForm extends JDialog {
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pack();
+
+
         btnLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,22 +50,14 @@ public class LoginForm extends JDialog {
         setVisible(true);
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("LoginForm");
-        frame.setContentPane(new LoginForm(frame).MainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-
-
-    }
-
     public void login() {
         try {
             UsuarioDAO dao = new UsuarioDAO();
             ResultSet rs = dao.autenticarUsuario(tfUsuario.getText(), String.valueOf(pfSenha.getPassword()));
-            dispose();
 
             if (rs.next()) {
+                dispose();
+                JOptionPane.showMessageDialog(null, "Bem vindo " + rs.getString("usuario"));
                 Long id = rs.getLong("idUsuario");
                 dao.RealizarLogin(id);
             } else {
@@ -99,13 +93,13 @@ public class LoginForm extends JDialog {
         MainPanel.add(panel1, new GridConstraints(0, 0, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setBackground(new Color(-264449));
-        Font label1Font = this.$$$getFont$$$("Copperplate Gothic Bold", Font.PLAIN, 12, label1.getFont());
+        Font label1Font = this.$$$getFont$$$("Unispace", Font.PLAIN, 16, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
         label1.setForeground(new Color(-16777216));
         label1.setText("Bem vindo(a) ao");
         panel1.add(label1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        Font label2Font = this.$$$getFont$$$("Copperplate Gothic Bold", Font.PLAIN, 12, label2.getFont());
+        Font label2Font = this.$$$getFont$$$("Unispace", Font.PLAIN, 16, label2.getFont());
         if (label2Font != null) label2.setFont(label2Font);
         label2.setForeground(new Color(-16777216));
         label2.setText("Sacola Books");

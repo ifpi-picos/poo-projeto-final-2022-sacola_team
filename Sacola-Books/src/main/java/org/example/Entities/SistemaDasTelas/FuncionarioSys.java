@@ -82,11 +82,12 @@ public class FuncionarioSys {
 
     // Usuarios
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-    public boolean CadastrarUsuario(Usuario usuario, Endereco endereco, Telefone telefoneUsuario) throws ParseException {
+    public boolean CadastrarUsuario(Usuario usuario, Endereco endereco, Telefone telefoneUsuario, String user, String senha) throws ParseException {
         if (usuario != null && endereco != null && telefoneUsuario != null) {
             usuarioDAO.save(usuario);
             usuarioDAO.saveEndereco(endereco, usuario.getIdUsuario());
             usuarioDAO.saveTelefone(telefoneUsuario, usuario.getIdUsuario());
+            usuarioDAO.CriarLogin(usuario, user, senha);
             return true;
         } else {
             return false;

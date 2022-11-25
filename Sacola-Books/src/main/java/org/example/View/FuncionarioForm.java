@@ -21,27 +21,30 @@ public class FuncionarioForm extends JDialog {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.pack();
         this.setLocationRelativeTo(null);
+        this.setSize(400, 300);
 
 
         gerenciarAcervoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 GerenciarAcervo gerenciarAcervo = new GerenciarAcervo(null);
                 gerenciarAcervo.setVisible(true);
-                dispose();
             }
         });
         gerenciarUsuariosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                GerenciarUsuario gerenciarUsuario = new GerenciarUsuario(null);
-//                gerenciarUsuario.setVisible(true);
+                dispose();
+                GerenciarUsuario gerenciarUsuarios = new GerenciarUsuario(null);
+                gerenciarUsuarios.setVisible(true);
             }
         });
         SAIRButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                System.exit(0);
             }
         });
     }

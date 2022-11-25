@@ -1,11 +1,11 @@
 package org.example.Dao.UsuariosDAO;
 
 import org.example.Entities.Usuarios.Endereco;
-import org.example.Entities.Usuarios.Professor;
 import org.example.Entities.Usuarios.Telefone;
 import org.example.Entities.Usuarios.Usuario;
 import org.example.Infra.ConnectionFactory;
 import org.example.View.FuncionarioForm;
+import org.example.View.UserForm;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class UsuarioDAO implements IUsuarioDAO {
+    public static String tipoDeUsuarioGlobal;
+    public static Long idUsuarioGlobal;
+
+    public String getTipoDeUsuarioGlobal() {
+        return tipoDeUsuarioGlobal;
+    }
+
     @Override
     public Usuario save(Usuario usuario) {
         try(Connection connection = ConnectionFactory.getConnection()){
@@ -240,7 +247,7 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     public ResultSet autenticarUsuario(String usuario, String senha) {
-        ResultSet rs = null;
+        ResultSet rs;
         Connection connection = ConnectionFactory.getConnection();
         try{
             String sql = "SELECT * FROM logins WHERE usuario = ? AND senha = ?";
@@ -269,22 +276,29 @@ public class UsuarioDAO implements IUsuarioDAO {
             ResultSet rs = pstm.executeQuery();
 
             if(rs.next()) {
+                idUsuarioGlobal = rs.getLong("idUsuario");
                 String tipoDeUsuario = rs.getString("tipoDeUsuario");
                 switch (tipoDeUsuario) {
-                    case "Funcionario":
+                    case "Funcionario" -> {
+                        tipoDeUsuarioGlobal = "Funcionario";
                         FuncionarioForm funcionarioForm = new FuncionarioForm(null);
                         funcionarioForm.setVisible(true);
-
-                        break;
-                    case "Professor":
-
-                        break;
-                    case "Aluno":
-
-                        break;
-                    case "Usuario Comum":
-
-                        break;
+                    }
+                    case "Professor" -> {
+                        tipoDeUsuarioGlobal = "Professor";
+                        UserForm userForm = new UserForm(null);
+                        userForm.setVisible(true);
+                    }
+                    case "Aluno" -> {
+                        tipoDeUsuarioGlobal = "Aluno";
+                        UserForm userForm1 = new UserForm(null);
+                        userForm1.setVisible(true);
+                    }
+                    case "Usuário Comum" -> {
+                        tipoDeUsuarioGlobal = "Usuário Comum";
+                        UserForm userForm2 = new UserForm(null);
+                        userForm2.setVisible(true);
+                    }
                 }
             }
         } catch (SQLException e) {

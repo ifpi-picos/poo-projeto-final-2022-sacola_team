@@ -83,8 +83,8 @@ public class BibliotecaDAO implements IBibliotecaDAO {
         String sql = "Select * from livros";
 
         List<Livro> livros = new ArrayList<>();
-
-        try(Connection connection = ConnectionFactory.getConnection()) {
+        Connection connection = ConnectionFactory.getConnection();
+        try {
             PreparedStatement pstm = connection.prepareStatement(sql);
 
             ResultSet rs = pstm.executeQuery();

@@ -11,11 +11,8 @@ import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.Locale;
-import java.util.Vector;
 
 public class GerenciarAcervo extends JDialog {
     private JPanel MainPanel;
@@ -48,7 +45,7 @@ public class GerenciarAcervo extends JDialog {
         btnRemoverAreaConhecimento.addActionListener(e -> funcionarioSys.removerAreaDeConhecimento());
         EMPRESTARLIVROButton.addActionListener(e -> {
             try {
-                bibliotecaSys.emprestarLivro();
+                bibliotecaSys.emprestarLivroFuncionario();
             } catch (ParseException ex) {
                 throw new RuntimeException(ex);
             }

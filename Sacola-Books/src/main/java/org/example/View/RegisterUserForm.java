@@ -63,7 +63,8 @@ public class RegisterUserForm extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                System.exit(0);
+                GerenciarUsuario gerenciarUsuarios = new GerenciarUsuario(null);
+                gerenciarUsuarios.setVisible(true);
             }
         });
     }
@@ -137,9 +138,12 @@ public class RegisterUserForm extends JDialog {
         Telefone ObjTelefone = new Telefone(telefone);
 
         FuncionarioSys funcionarioSys = new FuncionarioSys();
-        if (funcionarioSys.CadastrarUsuario(ObjUsuario, ObjEndereco, ObjTelefone)) {
+        if (funcionarioSys.CadastrarUsuario(ObjUsuario, ObjEndereco, ObjTelefone, usuario, senha)) {
             JOptionPane.showMessageDialog(this, "Usuário registrado com sucesso!");
+
             dispose();
+            GerenciarUsuario gerenciarUsuarios = new GerenciarUsuario(null);
+            gerenciarUsuarios.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Erro ao registrar usuário!");
         }
@@ -169,12 +173,16 @@ public class RegisterUserForm extends JDialog {
 
         try {
             MaskFormatter maskCPF = new MaskFormatter("###.###.###-##");
+            maskCPF.setPlaceholderCharacter('_');
             maskCPF.install(tfCPF);
             MaskFormatter maskTelefone = new MaskFormatter("(##) #####-####");
+            maskTelefone.setPlaceholderCharacter('_');
             maskTelefone.install(tfTelefone);
             MaskFormatter maskCep = new MaskFormatter("#####-###");
+            maskCep.setPlaceholderCharacter('_');
             maskCep.install(tfCep);
             MaskFormatter maskDataDeNascimento = new MaskFormatter("##/##/####");
+            maskDataDeNascimento.setPlaceholderCharacter('_');
             maskDataDeNascimento.install(tfDataDeNascimento);
 
         } catch (ParseException e) {
@@ -288,78 +296,58 @@ public class RegisterUserForm extends JDialog {
         label10.setText("Informações pessoais:");
         mainPanel.add(label10, new GridConstraints(4, 5, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label11 = new JLabel();
-        label11.setText("Cidade:");
-        mainPanel.add(label11, new GridConstraints(7, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        tfCidade = new JTextField();
-        mainPanel.add(tfCidade, new GridConstraints(7, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JLabel label12 = new JLabel();
-        Font label12Font = this.$$$getFont$$$(null, -1, 16, label12.getFont());
-        if (label12Font != null) label12.setFont(label12Font);
-        label12.setText("Endereço:");
-        mainPanel.add(label12, new GridConstraints(4, 11, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        Font label11Font = this.$$$getFont$$$(null, -1, 16, label11.getFont());
+        if (label11Font != null) label11.setFont(label11Font);
+        label11.setText("Endereço:");
+        mainPanel.add(label11, new GridConstraints(4, 11, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer13 = new Spacer();
         mainPanel.add(spacer13, new GridConstraints(3, 13, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         cancelarButton = new JButton();
-        cancelarButton.setText("cancelar");
+        cancelarButton.setText("CANCELAR");
         mainPanel.add(cancelarButton, new GridConstraints(23, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         registrarButton = new JButton();
         registrarButton.setHorizontalAlignment(0);
-        registrarButton.setText("registrar");
+        registrarButton.setText("REGISTRAR");
         mainPanel.add(registrarButton, new GridConstraints(23, 12, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label13 = new JLabel();
-        label13.setText("Data de Nascimento:");
-        mainPanel.add(label13, new GridConstraints(9, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label12 = new JLabel();
+        label12.setText("Data de Nascimento:");
+        mainPanel.add(label12, new GridConstraints(9, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer14 = new Spacer();
         mainPanel.add(spacer14, new GridConstraints(10, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         tfDataDeNascimento = new JFormattedTextField();
         mainPanel.add(tfDataDeNascimento, new GridConstraints(9, 6, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JLabel label14 = new JLabel();
-        label14.setText("Bairro:");
-        mainPanel.add(label14, new GridConstraints(9, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        tfBairro = new JTextField();
-        mainPanel.add(tfBairro, new GridConstraints(9, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JLabel label15 = new JLabel();
-        label15.setText("Rua:");
-        mainPanel.add(label15, new GridConstraints(11, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        tfRua = new JTextField();
-        mainPanel.add(tfRua, new GridConstraints(11, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JLabel label16 = new JLabel();
-        label16.setText("Número:");
-        mainPanel.add(label16, new GridConstraints(13, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        tfNúmero = new JTextField();
-        mainPanel.add(tfNúmero, new GridConstraints(13, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final Spacer spacer15 = new Spacer();
         mainPanel.add(spacer15, new GridConstraints(1, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        final JLabel label17 = new JLabel();
-        label17.setText("");
-        mainPanel.add(label17, new GridConstraints(3, 14, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label18 = new JLabel();
-        label18.setText("");
-        mainPanel.add(label18, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label19 = new JLabel();
-        label19.setText("");
-        mainPanel.add(label19, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label20 = new JLabel();
-        label20.setText("");
-        mainPanel.add(label20, new GridConstraints(25, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label13 = new JLabel();
+        label13.setText("");
+        mainPanel.add(label13, new GridConstraints(3, 14, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label14 = new JLabel();
+        label14.setText("");
+        mainPanel.add(label14, new GridConstraints(0, 6, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label15 = new JLabel();
+        label15.setText("");
+        mainPanel.add(label15, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label16 = new JLabel();
+        label16.setText("");
+        mainPanel.add(label16, new GridConstraints(25, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer16 = new Spacer();
         mainPanel.add(spacer16, new GridConstraints(26, 11, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        final JLabel label21 = new JLabel();
-        label21.setText("");
-        mainPanel.add(label21, new GridConstraints(27, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label17 = new JLabel();
+        label17.setText("");
+        mainPanel.add(label17, new GridConstraints(27, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer17 = new Spacer();
         mainPanel.add(spacer17, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final JLabel label22 = new JLabel();
-        label22.setText("");
-        mainPanel.add(label22, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label18 = new JLabel();
+        label18.setText("");
+        mainPanel.add(label18, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         tfCep = new JFormattedTextField();
         mainPanel.add(tfCep, new GridConstraints(5, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JLabel label23 = new JLabel();
-        label23.setText("Cep:");
-        mainPanel.add(label23, new GridConstraints(5, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label24 = new JLabel();
-        label24.setText("Estado:");
-        mainPanel.add(label24, new GridConstraints(15, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label19 = new JLabel();
+        label19.setText("Cep:");
+        mainPanel.add(label19, new GridConstraints(5, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label20 = new JLabel();
+        label20.setText("Estado:");
+        mainPanel.add(label20, new GridConstraints(15, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         cbEstado = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel2 = new DefaultComboBoxModel();
         defaultComboBoxModel2.addElement("Acre");
@@ -391,6 +379,26 @@ public class RegisterUserForm extends JDialog {
         defaultComboBoxModel2.addElement("Tocantins");
         cbEstado.setModel(defaultComboBoxModel2);
         mainPanel.add(cbEstado, new GridConstraints(15, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label21 = new JLabel();
+        label21.setText("Cidade:");
+        mainPanel.add(label21, new GridConstraints(13, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfCidade = new JTextField();
+        mainPanel.add(tfCidade, new GridConstraints(13, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label22 = new JLabel();
+        label22.setText("Bairro:");
+        mainPanel.add(label22, new GridConstraints(11, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfBairro = new JTextField();
+        mainPanel.add(tfBairro, new GridConstraints(11, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        tfRua = new JTextField();
+        mainPanel.add(tfRua, new GridConstraints(9, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label23 = new JLabel();
+        label23.setText("Rua:");
+        mainPanel.add(label23, new GridConstraints(9, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label24 = new JLabel();
+        label24.setText("Número:");
+        mainPanel.add(label24, new GridConstraints(7, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfNúmero = new JTextField();
+        mainPanel.add(tfNúmero, new GridConstraints(7, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**

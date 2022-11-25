@@ -4,6 +4,8 @@ import org.example.Entities.Acervo.Emprestimo;
 import org.example.Infra.ConnectionFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class EmprestimoDAO implements IEmprestimoDAO {
@@ -52,14 +54,15 @@ public class EmprestimoDAO implements IEmprestimoDAO {
     }
 
     @Override
-    public void delete(Long id) {
-        String sql = "DELETE FROM emprestimos WHERE idEmprestimo = ?";
+    public void delete(Long idLivro, Long idUsuario) {
+        String sql = "DELETE FROM emprestimos WHERE cod_Livro = ? AND idUsuario = ?";
         try (Connection conn = ConnectionFactory.getConnection();
             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setLong(1, id);
+            ps.setLong(1, idLivro);
+            ps.setLong(2, idUsuario);
             ps.executeUpdate();
         } catch (SQLException ex) {
-            System.out.println("Erro ao excluir emprestimo");
+            System.out.println("Erro ao deletar emprestimo");
         }
     }
 
@@ -116,6 +119,50 @@ public class EmprestimoDAO implements IEmprestimoDAO {
         return Optional.ofNullable(emprestimo);
     }
 
+    public List<Emprestimo> findAllEmprestimosDoUsuario(Long idUsuario) {
+        String sql = "SELECT * FROM emprestimos WHERE idUsuario = ?";
+        List<Emprestimo> emprestimos = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Long idEmprestimo = rs.getLong("idEmprestimo");
+                    Long cod_Livro = rs.getLong("cod_Livro");
+                    Long id_Usuario = rs.getLong("idUsuario");
+                    Date dataDeEmprestimo = rs.getDate("dataDeEmprestimo");
+                    Date dataDeDevolucao = rs.getDate("dataDeDevolucao");
+                    Boolean foiDevolvido = rs.getBoolean("foiDevolvido");
+                    Emprestimo emprestimo = new Emprestimo(idEmprestimo, cod_Livro, id_Usuario, dataDeEmprestimo, dataDeDevolucao, foiDevolvido);
+                    emprestimos.add(emprestimo);
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao obter emprestimo");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao obter emprestimo");
+        }
+        return emprestimos;
+    }
+
+    public boolean TemPendencia(Long idUsuario) {
+        String sql = "SELECT * FROM emprestimos WHERE idUsuario = ? AND foiDevolvido = false";
+        try (Connection conn = ConnectionFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return false;
+                }
+            } catch (SQLException ex) {
+                System.out.println("Erro ao obter emprestimo");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao obter emprestimo");
+        }
+        return true;
+    }
+
 
     public void devolverLivro(Long idLivro, Long idUsuario, Date dataDeDevolucao) {
         String sql = "UPDATE emprestimos SET dataDeDevolucao = ?, foiDevolvido = ? WHERE cod_Livro = ? AND idUsuario = ?";
@@ -130,6 +177,39 @@ public class EmprestimoDAO implements IEmprestimoDAO {
             System.out.println("Erro ao atualizar emprestimo");
         }
     }
-}
+
+    public void SalvarHistoricoDeEmprestimo(Emprestimo emprestimo) {
+        String sql = "INSERT INTO historicoDeEmprestimos (cod_Livro, idUsuario, dataDeEmprestimo, dataDeDevolucao, foiDevolvido) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setLong(1, emprestimo.getCod_Livro());
+            ps.setLong(2, emprestimo.getIdUsuario());
+            ps.setDate(3, emprestimo.getDataDeEmprestimo());
+            ps.setDate(4, emprestimo.getDataDeDevolucao());
+            ps.setBoolean(5, emprestimo.isFoiDevolvido());
+            ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println("Erro ao salvar historico de emprestimo");
+        }
+    }
+
+    public void atualizarHistoricoDeEmprestimo(Long idLivro, Long idUsuario, Date dataDeDevolucao, Boolean foiDevolvido) {
+        String sql = "UPDATE historicoDeEmprestimos SET dataDeDevolucao = ?, foiDevolvido = ? WHERE cod_Livro = ? AND idUsuario = ?";
+        try (Connection conn = ConnectionFactory.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDate(1, dataDeDevolucao);
+            ps.setBoolean(2, foiDevolvido);
+            ps.setLong(3, idLivro);
+            ps.setLong(4, idUsuario);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Erro ao atualizar historico de emprestimo");
+        }
+    }
+
+    }
+
 
 
