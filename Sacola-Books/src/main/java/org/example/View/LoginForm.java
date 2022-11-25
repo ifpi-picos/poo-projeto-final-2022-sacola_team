@@ -67,6 +67,7 @@ public class LoginForm extends JDialog {
             JOptionPane.showMessageDialog(null, "Erro ao autenticar usuário: " + e.getMessage());
         }
 
+
     }
 
 
