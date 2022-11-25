@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.util.Locale;
 
@@ -58,6 +60,14 @@ public class GerenciarAcervo extends JDialog {
             }
         });
         btnRemoverLivro.addActionListener(e -> funcionarioSys.removerLivro());
+        btnAlterarLivro.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                AlterarLivro alterarLivro = new AlterarLivro(parent);
+                alterarLivro.setVisible(true);
+            }
+        });
     }
 
 

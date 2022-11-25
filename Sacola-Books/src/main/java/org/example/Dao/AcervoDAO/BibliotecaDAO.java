@@ -44,15 +44,16 @@ public class BibliotecaDAO implements IBibliotecaDAO {
         @Override
     public Livro update(Livro livro) {
         try (Connection connection = ConnectionFactory.getConnection()) {
-            String sql = "UPDATE livros SET titulo = ?, autor = ?, dataDePublicacao = ?, quantidadeDeCopias = ? WHERE idLivro = ?";
+            String sql = "UPDATE livros SET titulo = ?, autor = ?, dataDePublicacao = ?, areaDeConhecimento = ?, quantidadeDeCopias = ? WHERE idLivro = ?";
 
             assert connection != null;
             PreparedStatement pstm = connection.prepareStatement(sql);
             pstm.setString(1, livro.getTitulo());
             pstm.setString(2, livro.getAutor());
             pstm.setDate(3, new java.sql.Date(livro.getDataDePublicacao().getTime()));
-            pstm.setInt(4, livro.getQuantidadeDeCopias());
-            pstm.setLong(5, livro.getIdLivro());
+            pstm.setLong(4, livro.getIdAreaDeConhecimento());
+            pstm.setInt(5, livro.getQuantidadeDeCopias());
+            pstm.setLong(6, livro.getIdLivro());
 
             pstm.executeUpdate();
 

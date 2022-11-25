@@ -3,12 +3,12 @@ package org.example.Entities.Acervo;
 import java.sql.Date;
 
 public class Emprestimo {
-    Long idEmprestimo;
-    Long cod_Livro;
-    Long idUsuario;
-    Date dataDeEmprestimo;
-    Date dataDeDevolucao;
-    Boolean foiDevolvido;
+    private Long idEmprestimo;
+    private Long cod_Livro;
+    private Long idUsuario;
+    private Date dataDeEmprestimo;
+    private Date dataDeDevolucao;
+    private Boolean foiDevolvido;
 
     public Emprestimo(Long idEmprestimo, Long cod_Livro, Long idUsuario, Date dataDeEmprestimo, Date dataDeDevolucao, Boolean foiDevolvido) {
         this.idEmprestimo = idEmprestimo;

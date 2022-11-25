@@ -16,11 +16,6 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>com.miglayout</groupId>
-            <artifactId>miglayout</artifactId>
-            <version>3.7.4</version>
-        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -91,7 +86,7 @@
               <archive>
                 <manifest>
                   <mainClass>
-                        com.example.Main
+                        org.example.Main
                   </mainClass>
                 </manifest>
               </archive>
