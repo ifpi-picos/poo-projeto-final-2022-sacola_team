@@ -47,7 +47,6 @@ public class LoginForm extends JDialog {
                 dispose();
             }
         });
-        setVisible(true);
     }
 
     public void login() {

@@ -27,6 +27,13 @@ public class FuncionarioSys {
         bibliotecaDAO.save(livro);
     }
 
+    public void atualizarLivro(Long idLivro, String titulo, String autor, Long areaDeConhecimento, String dataDePublicacao, int quantidadeDeCopias) throws ParseException {
+        Date dataDePublicacaoFormatada = InserirDataFormatada(dataDePublicacao);
+
+        Livro livro = new Livro(idLivro, titulo, autor, areaDeConhecimento, dataDePublicacaoFormatada, quantidadeDeCopias);
+        bibliotecaDAO.update(livro);
+    }
+
     public void removerLivro() {
         List<Livro> listaDeLivros = bibliotecaDAO.findAll();
         StringBuilder livros = new StringBuilder();

@@ -5,27 +5,37 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import org.example.Dao.AcervoDAO.BibliotecaDAO;
 import org.example.Entities.Acervo.Livro;
+import org.example.Entities.SistemaDasTelas.FuncionarioSys;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class AlterarLivro extends JDialog {
     private JTextField tfTitulo;
     private JTextField tfAutor;
-    private JComboBox cbAreaDeConhecimento;
-    private JTextField tfDataDePublicacao;
+    private JComboBox<String> cbAreaDeConhecimento;
+    private JFormattedTextField tfDataDePublicacao;
     private JSpinner spQuantidadeDeCopias;
     private JButton btAlterar;
     private JButton btCancelar;
     private JPanel MainPanel;
 
+    BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+    FuncionarioSys funcionarioSys = new FuncionarioSys();
+    Long idLivro;
+
     public AlterarLivro(JFrame parent) {
         super(parent, "Alterar Livro", true);
-        preencherCampos();
+        inicializador();
         this.setContentPane(MainPanel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.pack();
@@ -35,7 +45,13 @@ public class AlterarLivro extends JDialog {
         btAlterar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    alterarLivro();
+                    GerenciarAcervo gerenciarAcervo = new GerenciarAcervo(parent);
+                    gerenciarAcervo.setVisible(true);
+                } catch (ParseException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         btCancelar.addActionListener(new ActionListener() {
@@ -47,22 +63,75 @@ public class AlterarLivro extends JDialog {
     }
 
 
-    BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+    private void alterarLivro() throws ParseException {
+        String titulo = tfTitulo.getText();
+        String autor = tfAutor.getText();
+        String dataDePublicacao = tfDataDePublicacao.getText();
+        int quantidadeDeCopias = (int) spQuantidadeDeCopias.getValue();
+        String areaDeConhecimento = Objects.requireNonNull(cbAreaDeConhecimento.getSelectedItem()).toString();
+        Long idAreaDeConhecimento = bibliotecaDAO.findIdAreaByTitulo(areaDeConhecimento);
 
-    public void preencherCampos() {
+        funcionarioSys.atualizarLivro(idLivro, titulo, autor, idAreaDeConhecimento, dataDePublicacao, quantidadeDeCopias);
+        JOptionPane.showMessageDialog(null, "Livro alterado com sucesso!");
+        dispose();
+    }
+
+    public void inicializador() {
+        idLivro = pegarIdLivro();
+        limitarSpinner();
+        preencherCampos();
+        preencherComboBox();
+        converterDataSQLParaString();
+    }
+
+    public Long pegarIdLivro() {
         List<Livro> listaDeLivros = bibliotecaDAO.findAll();
         StringBuilder livros = new StringBuilder();
         for (Livro livro : listaDeLivros) {
             livros.append(livro.getIdLivro()).append(" - ").append(livro.getTitulo()).append("\n");
         }
-        long idLivro = Long.parseLong(JOptionPane.showInputDialog("Digite o ID do livro que deseja Alterar: \n" + livros));
+        return Long.parseLong(JOptionPane.showInputDialog("Digite o ID do livro que deseja Alterar: \n" + livros));
+    }
 
+
+    public void preencherCampos() {
         Optional<Livro> livro = bibliotecaDAO.findLivroById(idLivro);
         tfTitulo.setText(livro.get().getTitulo());
         tfAutor.setText(livro.get().getAutor());
         cbAreaDeConhecimento.setSelectedItem(livro.get().getIdAreaDeConhecimento());
         tfDataDePublicacao.setText(String.valueOf(livro.get().getDataDePublicacao()));
         spQuantidadeDeCopias.setValue(livro.get().getQuantidadeDeCopias());
+    }
+
+    public void preencherComboBox() {
+        ResultSet resultSet = bibliotecaDAO.findAllAreasForComboBox();
+        try {
+            while (resultSet.next()) {
+                cbAreaDeConhecimento.addItem(resultSet.getString("titulo"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void converterDataSQLParaString() {
+        String data = tfDataDePublicacao.getText();
+        String[] dataSeparada = data.split("-");
+        String dataFormatada = dataSeparada[2] + "/" + dataSeparada[1] + "/" + dataSeparada[0];
+        tfDataDePublicacao.setText(dataFormatada);
+    }
+
+    public void limitarSpinner() {
+        SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(1, 1, 100, 1);
+        spQuantidadeDeCopias.setModel(spinnerNumberModel);
+    }
+
+
+    public static void main(String[] args) {
+        AlterarLivro dialog = new AlterarLivro(new JFrame());
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
     }
 
     {
@@ -128,7 +197,7 @@ public class AlterarLivro extends JDialog {
         final JLabel label10 = new JLabel();
         label10.setText("Data de publicação:");
         MainPanel.add(label10, new GridConstraints(10, 4, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        tfDataDePublicacao = new JTextField();
+        tfDataDePublicacao = new JFormattedTextField();
         MainPanel.add(tfDataDePublicacao, new GridConstraints(10, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label11 = new JLabel();
         label11.setText("Quantidade de cópias:");
@@ -165,6 +234,7 @@ public class AlterarLivro extends JDialog {
         MainPanel.add(spacer13, new GridConstraints(15, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer14 = new Spacer();
         MainPanel.add(spacer14, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        label11.setLabelFor(spQuantidadeDeCopias);
     }
 
     /**
@@ -173,4 +243,5 @@ public class AlterarLivro extends JDialog {
     public JComponent $$$getRootComponent$$$() {
         return MainPanel;
     }
+
 }

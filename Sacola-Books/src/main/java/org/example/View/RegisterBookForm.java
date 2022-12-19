@@ -86,6 +86,10 @@ public class RegisterBookForm extends JDialog {
             MaskFormatter maskDataPublicacao = new MaskFormatter("##/##/####");
             maskDataPublicacao.setPlaceholderCharacter('_');
             maskDataPublicacao.install(txtFormattedDataDePublicacao);
+
+            SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(1, 1, 100, 1);
+            spinnerQuantidadeDeCopias.setModel(spinnerNumberModel);
+
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
