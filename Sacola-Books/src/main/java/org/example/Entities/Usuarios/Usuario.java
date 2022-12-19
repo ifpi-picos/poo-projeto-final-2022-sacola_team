@@ -10,12 +10,12 @@ public class Usuario {
     private String cpf;
     private String tipoDeUsuario;
 
-    public Usuario(Long idUsuario, String nome, String email, Date dataDeNascimento, String cpf, String tipoDeUsuario) {
+    public Usuario(Long idUsuario, String nome, String cpf, Date dataDeNascimento, String email, String tipoDeUsuario) {
         this.idUsuario = idUsuario;
         this.nome = nome;
-        this.email = email;
-        this.dataDeNascimento = dataDeNascimento;
         this.cpf = cpf;
+        this.dataDeNascimento = dataDeNascimento;
+        this.email = email;
         this.tipoDeUsuario = tipoDeUsuario;
     }
 

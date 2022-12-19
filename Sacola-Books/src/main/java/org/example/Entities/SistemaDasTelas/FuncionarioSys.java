@@ -11,6 +11,7 @@ import org.example.Entities.Usuarios.Usuario;
 import javax.swing.*;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -89,7 +90,7 @@ public class FuncionarioSys {
 
     // Usuarios
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-    public boolean CadastrarUsuario(Usuario usuario, Endereco endereco, Telefone telefoneUsuario, String user, String senha) throws ParseException {
+    public boolean CadastrarUsuario(Usuario usuario, Endereco endereco, Telefone telefoneUsuario, String user, String senha)  {
         if (usuario != null && endereco != null && telefoneUsuario != null) {
             usuarioDAO.save(usuario);
             usuarioDAO.saveEndereco(endereco, usuario.getIdUsuario());
@@ -98,6 +99,14 @@ public class FuncionarioSys {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void alterarUsuario(Usuario usuario, Endereco endereco, Telefone telefoneUsuario) throws ParseException, SQLException {
+        if (usuario != null && endereco != null && telefoneUsuario != null) {
+            usuarioDAO.update(usuario);
+            usuarioDAO.updateEndereco(endereco, usuario.getIdUsuario());
+            usuarioDAO.updateTelefone(telefoneUsuario, usuario.getIdUsuario());
         }
     }
     public void removerUsuario() {

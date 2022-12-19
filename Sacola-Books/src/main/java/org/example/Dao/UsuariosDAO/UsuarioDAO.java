@@ -1,6 +1,7 @@
 package org.example.Dao.UsuariosDAO;
 
 import org.example.Entities.Usuarios.Endereco;
+import org.example.Entities.Usuarios.Logins;
 import org.example.Entities.Usuarios.Telefone;
 import org.example.Entities.Usuarios.Usuario;
 import org.example.Infra.ConnectionFactory;
@@ -192,13 +193,58 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-    public Endereco updateEndereco(Endereco endereco) {
-        return null;
+    public Endereco updateEndereco(Endereco endereco, Long idUsuario) {
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "UPDATE enderecos SET rua = ?, num = ?, bairro = ?, cidade = ?, estado = ?, cep = ? WHERE idUsuario = ?";
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setString(1, endereco.rua());
+            pstm.setString(2, endereco.numero());
+            pstm.setString(3, endereco.bairro());
+            pstm.setString(4, endereco.cidade());
+            pstm.setString(5, endereco.estado());
+            pstm.setString(6, endereco.cep());
+            pstm.setLong(7, idUsuario);
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return endereco;
     }
 
     @Override
     public void deleteEndereco(Long id) {
 
+    }
+
+    public Optional<Endereco> FindEnderecoByIdUsuario(Long idUsuario) {
+        Endereco endereco = null;
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "SELECT * FROM enderecos WHERE idUsuario = ?";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setLong(1, idUsuario);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if(rs.next()){
+                Long idEndereco = rs.getLong("idEndereco");
+                String rua = rs.getString("rua");
+                String num = rs.getString("num");
+                String bairro = rs.getString("bairro");
+                String cidade = rs.getString("cidade");
+                String estado = rs.getString("estado");
+                String cep = rs.getString("cep");
+
+                endereco = new Endereco(idEndereco, rua, num, bairro, cidade, estado, cep);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.ofNullable(endereco);
     }
 
     @Override
@@ -219,13 +265,48 @@ public class UsuarioDAO implements IUsuarioDAO {
     }
 
     @Override
-    public Telefone updateTelefone(Telefone telefone) {
-        return null;
+    public Telefone updateTelefone(Telefone telefone, Long idUsuario) {
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "UPDATE telefones SET numero = ? WHERE idUsuario = ?";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setString(1, telefone.numero());
+            pstm.setLong(2,idUsuario);
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return telefone;
     }
 
     @Override
     public void deleteTelefone(Long id) {
 
+    }
+
+    public Optional<Telefone> FindTelefoneByIdUsuario(Long idUsuario) {
+        Telefone telefone = null;
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "SELECT * FROM telefones WHERE idUsuario = ?";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setLong(1, idUsuario);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if(rs.next()){
+                String numero = rs.getString("numero");
+
+                telefone = new Telefone(numero);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.ofNullable(telefone);
     }
 
     // Métodos para o login
@@ -239,6 +320,22 @@ public class UsuarioDAO implements IUsuarioDAO {
             pstm.setLong(1, Idusuario.getIdUsuario());
             pstm.setString(2, usuario);
             pstm.setString(3, senha);
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateLogin(Long Idusuario, String usuario, String senha) {
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "UPDATE logins SET usuario = ?, senha = ? WHERE idUsuario = ?";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setString(1, usuario);
+            pstm.setString(2, senha);
+            pstm.setLong(3, Idusuario);
             pstm.executeUpdate();
 
         } catch (SQLException e) {
@@ -301,6 +398,68 @@ public class UsuarioDAO implements IUsuarioDAO {
                     }
                 }
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Optional<Logins> FindLoginByIdUsuario(Long idUsuario) {
+        Logins login = null;
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "SELECT * FROM logins WHERE idUsuario = ?";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setLong(1, idUsuario);
+
+            ResultSet rs = pstm.executeQuery();
+
+            if(rs.next()){
+                String usuario = rs.getString("usuario");
+                String senha = rs.getString("senha");
+
+                login = new Logins(usuario, senha);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.ofNullable(login);
+    }
+
+
+    // Alteração geral do usuário
+
+    public void alterarUsuario(Usuario ObjUsuario, Endereco ObjEndereco, Telefone ObjTelefone, long idUsuario) throws SQLException {
+        try(Connection connection = ConnectionFactory.getConnection()){
+            String sql = "UPDATE usuarios SET nome = ?, cpf = ?, dataDeNascimento = ?, tipoDeUsuario = ? WHERE idUsuario = ?";
+            String sql2 = "UPDATE enderecos SET rua = ?, num = ?, bairro = ?, cidade = ?, estado = ?, cep = ? WHERE idUsuario = ?";
+            String sql3 = "UPDATE telefones SET numero = ? WHERE idUsuario = ?";
+
+            assert connection != null;
+            PreparedStatement pstm = connection.prepareStatement(sql);
+            pstm.setString(1, ObjUsuario.getNome());
+            pstm.setString(2, ObjUsuario.getCpf());
+            pstm.setDate(3, ObjUsuario.getDataDeNascimento());
+            pstm.setString(4, ObjUsuario.getTipoDeUsuario());
+            pstm.setLong(5, idUsuario);
+            pstm.executeUpdate();
+
+            PreparedStatement pstm2 = connection.prepareStatement(sql2);
+            pstm2.setString(1, ObjEndereco.rua());
+            pstm2.setString(2, ObjEndereco.numero());
+            pstm2.setString(3, ObjEndereco.bairro());
+            pstm2.setString(4, ObjEndereco.cidade());
+            pstm2.setString(5, ObjEndereco.estado());
+            pstm2.setString(6, ObjEndereco.cep());
+            pstm2.setLong(7, idUsuario);
+            pstm2.executeUpdate();
+
+            PreparedStatement pstm3 = connection.prepareStatement(sql3);
+            pstm3.setString(1, ObjTelefone.numero());
+            pstm3.setLong(2, idUsuario);
+            pstm3.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

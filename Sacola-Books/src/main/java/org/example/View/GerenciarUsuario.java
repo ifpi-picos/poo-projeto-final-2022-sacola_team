@@ -87,7 +87,8 @@ public class GerenciarUsuario extends JDialog {
     }
 
     private void alterarUsuario() {
-//        funcionarioSys.alterarUsuario();
+        AlterarUsuario alterarUsuario = new AlterarUsuario(null);
+        alterarUsuario.setVisible(true);
     }
 
     private void removerUsuario() {
