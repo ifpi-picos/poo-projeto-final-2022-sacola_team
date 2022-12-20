@@ -13,8 +13,6 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.Locale;
@@ -24,21 +22,22 @@ public class RegisterUserForm extends JDialog {
     private JTextField tfNome;
     private JFormattedTextField tfCPF;
     private JTextField tfEmail;
-    private JTextField tfUsuário;
+    private JTextField tfUsuario;
     private JPasswordField pfSenha;
     private JPasswordField pfConfirmarSenha;
     private JFormattedTextField tfTelefone;
     private JButton registrarButton;
     private JButton cancelarButton;
-    private JComboBox cbTipoDeUsuário;
+    private JComboBox cbTipoDeUsuario;
     private JPanel mainPanel;
     private JTextField tfCidade;
     private JTextField tfBairro;
     private JTextField tfRua;
-    private JTextField tfNúmero;
+    private JTextField tfNumero;
     private JFormattedTextField tfCep;
     private JFormattedTextField tfDataDeNascimento;
     private JComboBox cbEstado;
+
 
     public RegisterUserForm(JFrame parent) {
         super(parent);
@@ -49,41 +48,34 @@ public class RegisterUserForm extends JDialog {
         this.pack();
         this.setLocationRelativeTo(null);
 
-        registrarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Registrar();
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
+        registrarButton.addActionListener(e -> {
+            try {
+                Registrar();
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
             }
         });
-        cancelarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                GerenciarUsuario gerenciarUsuarios = new GerenciarUsuario(null);
-                gerenciarUsuarios.setVisible(true);
-            }
+        cancelarButton.addActionListener(e -> {
+            dispose();
+            GerenciarUsuario gerenciarUsuarios = new GerenciarUsuario(null);
+            gerenciarUsuarios.setVisible(true);
         });
     }
-
 
     private void Registrar() throws ParseException {
         String nome = tfNome.getText();
         String cpf = tfCPF.getText();
         String email = tfEmail.getText();
-        String usuario = tfUsuário.getText();
+        String usuario = tfUsuario.getText();
         String senha = new String(pfSenha.getPassword());
         String confirmarSenha = new String(pfConfirmarSenha.getPassword());
         String telefone = tfTelefone.getText();
-        String tipoDeUsuario = Objects.requireNonNull(cbTipoDeUsuário.getSelectedItem()).toString();
+        String tipoDeUsuario = Objects.requireNonNull(cbTipoDeUsuario.getSelectedItem()).toString();
         String estado = Objects.requireNonNull(cbEstado.getSelectedItem()).toString();
         String cidade = tfCidade.getText();
         String bairro = tfBairro.getText();
         String rua = tfRua.getText();
-        String numero = tfNúmero.getText();
+        String numero = tfNumero.getText();
         String cep = tfCep.getText();
         String dataDeNascimento = tfDataDeNascimento.getText();
         Date dataNascimentoFormatada = FuncionarioSys.InserirDataFormatada(dataDeNascimento);
@@ -152,13 +144,13 @@ public class RegisterUserForm extends JDialog {
     private void formatarCampos() {
         tfNome.setDocument(new JTextFieldLimit(50));
         tfEmail.setDocument(new JTextFieldLimit(50));
-        tfUsuário.setDocument(new JTextFieldLimit(50));
+        tfUsuario.setDocument(new JTextFieldLimit(50));
         pfSenha.setDocument(new JTextFieldLimit(50));
         pfConfirmarSenha.setDocument(new JTextFieldLimit(50));
         tfCidade.setDocument(new JTextFieldLimit(50));
         tfBairro.setDocument(new JTextFieldLimit(50));
         tfRua.setDocument(new JTextFieldLimit(50));
-        tfNúmero.setDocument(new JTextFieldLimit(5));
+        tfNumero.setDocument(new JTextFieldLimit(5));
 
 
         try {
@@ -166,7 +158,7 @@ public class RegisterUserForm extends JDialog {
             tfCidade.setText(tfCidade.getText().toUpperCase());
             tfBairro.setText(tfBairro.getText().toUpperCase());
             tfRua.setText(tfRua.getText().toUpperCase());
-            tfNúmero.setText(tfNúmero.getText().toUpperCase());
+            tfNumero.setText(tfNumero.getText().toUpperCase());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao formatar campos!");
         }
@@ -189,14 +181,6 @@ public class RegisterUserForm extends JDialog {
             throw new RuntimeException(e);
         }
 
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("RegisterUserForm");
-        frame.setContentPane(new RegisterUserForm(frame).mainPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
     }
 
     {
@@ -234,8 +218,8 @@ public class RegisterUserForm extends JDialog {
         final JLabel label4 = new JLabel();
         label4.setText("Usuário:");
         mainPanel.add(label4, new GridConstraints(15, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        tfUsuário = new JTextField();
-        mainPanel.add(tfUsuário, new GridConstraints(15, 6, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        tfUsuario = new JTextField();
+        mainPanel.add(tfUsuario, new GridConstraints(15, 6, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JLabel label5 = new JLabel();
         label5.setText("Senha:");
         mainPanel.add(label5, new GridConstraints(19, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -257,13 +241,13 @@ public class RegisterUserForm extends JDialog {
         final JLabel label9 = new JLabel();
         label9.setText("Tipo de usuário:");
         mainPanel.add(label9, new GridConstraints(17, 5, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        cbTipoDeUsuário = new JComboBox();
+        cbTipoDeUsuario = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         defaultComboBoxModel1.addElement("Usuário Comum");
         defaultComboBoxModel1.addElement("Professor");
         defaultComboBoxModel1.addElement("Aluno");
-        cbTipoDeUsuário.setModel(defaultComboBoxModel1);
-        mainPanel.add(cbTipoDeUsuário, new GridConstraints(17, 6, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        cbTipoDeUsuario.setModel(defaultComboBoxModel1);
+        mainPanel.add(cbTipoDeUsuario, new GridConstraints(17, 6, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         mainPanel.add(spacer1, new GridConstraints(6, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
@@ -397,8 +381,8 @@ public class RegisterUserForm extends JDialog {
         final JLabel label24 = new JLabel();
         label24.setText("Número:");
         mainPanel.add(label24, new GridConstraints(7, 11, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        tfNúmero = new JTextField();
-        mainPanel.add(tfNúmero, new GridConstraints(7, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        tfNumero = new JTextField();
+        mainPanel.add(tfNumero, new GridConstraints(7, 12, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
     }
 
     /**

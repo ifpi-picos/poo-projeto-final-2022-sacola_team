@@ -7,7 +7,7 @@ import org.example.Entities.Acervo.Emprestimo;
 import org.example.Entities.Acervo.Livro;
 import org.example.Entities.Usuarios.Usuario;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import java.sql.Date;
 import java.text.ParseException;
 import java.util.List;
@@ -17,8 +17,8 @@ public class BibliotecaSys {
     BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
     EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-    List<Livro> listaDeLivros = bibliotecaDAO.findAll();
-    List<Usuario> listaDeUsuarios = usuarioDAO.findAll();
+    List<Livro> listaDeLivros = bibliotecaDAO.findAllLivros();
+    List<Usuario> listaDeUsuarios = usuarioDAO.findAllUsuarios();
 
 
     // Metodos de Emprestimo do Funcionario
@@ -38,12 +38,12 @@ public class BibliotecaSys {
 
                 Long idUsuario = Long.parseLong(JOptionPane.showInputDialog("Digite o ID do usuario que deseja emprestar o livro: \n" + usuarios));
                 if (emprestimoDAO.TemPendencia(idUsuario)) {
-                    usuarioDAO.findById(idUsuario).ifPresent(usuario -> {
+                    usuarioDAO.findUsuarioById(idUsuario).ifPresent(usuario -> {
                         int qtdLivrosEmprestados = JOptionPane.showInputDialog("Digite a quantidade de livros que deseja emprestar: ").length();
                         Date dataDeEmprestimo = new Date(System.currentTimeMillis());
                         Date dataDeDevolucao = new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
-                        Emprestimo emprestimo = new Emprestimo(null, idLivro, idUsuario, dataDeEmprestimo, dataDeDevolucao, false);
-                        emprestimoDAO.save(emprestimo, qtdLivrosEmprestados);
+                        Emprestimo emprestimo = new Emprestimo(idLivro, idUsuario, dataDeEmprestimo, dataDeDevolucao, false);
+                        emprestimoDAO.saveEmprestimo(emprestimo, qtdLivrosEmprestados);
                         emprestimoDAO.SalvarHistoricoDeEmprestimo(emprestimo, qtdLivrosEmprestados);
 
                         livro.setQuantidadeDeCopias(livro.getQuantidadeDeCopias() - 1);
@@ -57,10 +57,13 @@ public class BibliotecaSys {
                 } else {
                     JOptionPane.showMessageDialog(null, "O usuario tem pendencias!");
 
-        }} else {
-            JOptionPane.showMessageDialog(null, "Não há cópias disponíveis desse livro");
-        }});
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Não há cópias disponíveis desse livro");
+            }
+        });
     }
+
     public void devolverLivro() throws ParseException {
         StringBuilder livros = new StringBuilder();
         for (Livro livro : listaDeLivros) {
@@ -74,7 +77,7 @@ public class BibliotecaSys {
                 usuarios.append(usuario.getIdUsuario()).append(" - ").append(usuario.getNome()).append("\n");
             }
             Long idUsuario = Long.parseLong(JOptionPane.showInputDialog("Digite o ID do usuario que deseja devolver o livro: \n" + usuarios));
-            usuarioDAO.findById(idUsuario).ifPresent(usuario -> {
+            usuarioDAO.findUsuarioById(idUsuario).ifPresent(usuario -> {
                 Date dataDeDevolucao = new Date(System.currentTimeMillis());
                 livro.setQuantidadeDeCopias(livro.getQuantidadeDeCopias() + emprestimoDAO.quantidadeDeLivrosEmprestada(idUsuario, idLivro));
                 emprestimoDAO.devolverLivro(idLivro, idUsuario, dataDeDevolucao);
@@ -106,8 +109,8 @@ public class BibliotecaSys {
                             if (quantidadeAEmprestar <= 3) {
                                 Date dataDeEmprestimo = new Date(System.currentTimeMillis());
                                 Date dataDeDevolucao = new Date(System.currentTimeMillis() + 14 * 24 * 60 * 60 * 1000);
-                                Emprestimo emprestimo = new Emprestimo(null, idLivro, usuarioLogado, dataDeEmprestimo, dataDeDevolucao, false);
-                                emprestimoDAO.save(emprestimo, quantidadeAEmprestar);
+                                Emprestimo emprestimo = new Emprestimo(idLivro, usuarioLogado, dataDeEmprestimo, dataDeDevolucao, false);
+                                emprestimoDAO.saveEmprestimo(emprestimo, quantidadeAEmprestar);
                                 livro.setQuantidadeDeCopias(livro.getQuantidadeDeCopias() - quantidadeAEmprestar);
                                 bibliotecaDAO.update(livro);
                                 emprestimoDAO.SalvarHistoricoDeEmprestimo(emprestimo, quantidadeAEmprestar);
@@ -120,8 +123,8 @@ public class BibliotecaSys {
                             if (quantidadeAEmprestar <= 2) {
                                 Date dataDeEmprestimo = new Date(System.currentTimeMillis());
                                 Date dataDeDevolucao = new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
-                                Emprestimo emprestimo = new Emprestimo(null, idLivro,  usuarioLogado, dataDeEmprestimo, dataDeDevolucao, false);
-                                emprestimoDAO.save(emprestimo, quantidadeAEmprestar);
+                                Emprestimo emprestimo = new Emprestimo(idLivro, usuarioLogado, dataDeEmprestimo, dataDeDevolucao, false);
+                                emprestimoDAO.saveEmprestimo(emprestimo, quantidadeAEmprestar);
                                 livro.setQuantidadeDeCopias(livro.getQuantidadeDeCopias() - quantidadeAEmprestar);
                                 bibliotecaDAO.update(livro);
                                 emprestimoDAO.SalvarHistoricoDeEmprestimo(emprestimo, quantidadeAEmprestar);
@@ -135,8 +138,8 @@ public class BibliotecaSys {
                             if (quantidadeAEmprestar <= 1) {
                                 Date dataDeEmprestimo = new Date(System.currentTimeMillis());
                                 Date dataDeDevolucao = new Date(System.currentTimeMillis() + 3 * 24 * 60 * 60 * 1000);
-                                Emprestimo emprestimo = new Emprestimo(null, idLivro, usuarioLogado, dataDeEmprestimo, dataDeDevolucao,  false);
-                                emprestimoDAO.save(emprestimo, quantidadeAEmprestar);
+                                Emprestimo emprestimo = new Emprestimo(idLivro, usuarioLogado, dataDeEmprestimo, dataDeDevolucao, false);
+                                emprestimoDAO.saveEmprestimo(emprestimo, quantidadeAEmprestar);
                                 livro.setQuantidadeDeCopias(livro.getQuantidadeDeCopias() - quantidadeAEmprestar);
                                 bibliotecaDAO.update(livro);
                                 emprestimoDAO.SalvarHistoricoDeEmprestimo(emprestimo, quantidadeAEmprestar);
@@ -165,7 +168,7 @@ public class BibliotecaSys {
         Long idLivro = Long.parseLong(JOptionPane.showInputDialog("Digite o ID do livro que deseja devolver: \n" + livros));
         bibliotecaDAO.findLivroById(idLivro).ifPresent(livro -> {
             Long idUsuario = UsuarioDAO.idUsuarioGlobal;
-            usuarioDAO.findById(idUsuario).ifPresent(usuario -> {
+            usuarioDAO.findUsuarioById(idUsuario).ifPresent(usuario -> {
                 Date dataDeDevolucao = new Date(System.currentTimeMillis());
                 livro.setQuantidadeDeCopias(livro.getQuantidadeDeCopias() + emprestimoDAO.quantidadeDeLivrosEmprestada(idUsuario, idLivro));
                 emprestimoDAO.devolverLivro(idLivro, idUsuario, dataDeDevolucao);

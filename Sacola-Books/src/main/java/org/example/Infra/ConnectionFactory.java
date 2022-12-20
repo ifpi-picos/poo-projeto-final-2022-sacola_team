@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    private ConnectionFactory() {}
+    private ConnectionFactory() {
+    }
 
     public static Connection getConnection() {
         try {

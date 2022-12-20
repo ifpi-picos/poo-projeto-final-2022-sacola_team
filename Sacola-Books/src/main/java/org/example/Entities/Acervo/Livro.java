@@ -1,15 +1,13 @@
 package org.example.Entities.Acervo;
 
-import org.example.Entities.Acervo.AreaDeConhecimento;
-
 import java.util.Date;
 
 public class Livro {
     Long idLivro;
-    private String titulo;
-    private String autor;
-    private Long IdAreaDeConhecimento;
-    private Date dataDePublicacao;
+    private final String titulo;
+    private final String autor;
+    private final Long IdAreaDeConhecimento;
+    private final Date dataDePublicacao;
     private int quantidadeDeCopias;
 
     public Livro(Long idLivro, String titulo, String autor, Long idAreaDeConhecimento, Date dataDePublicacao, int quantidadeDeCopias) {
@@ -24,31 +22,21 @@ public class Livro {
     public Long getIdLivro() {
         return idLivro;
     }
+
     public void setIdLivro(Long idLivro) {
         this.idLivro = idLivro;
     }
+
     public String getTitulo() {
         return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public String getAutor() {
         return autor;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
     public Date getDataDePublicacao() {
         return dataDePublicacao;
-    }
-
-    public void setDataDePublicacao(Date dataDePublicacao) {
-        this.dataDePublicacao = dataDePublicacao;
     }
 
     public int getQuantidadeDeCopias() {
@@ -63,7 +51,4 @@ public class Livro {
         return IdAreaDeConhecimento;
     }
 
-    public void setIdAreaDeConhecimento(Long idAreaDeConhecimento) {
-        IdAreaDeConhecimento = idAreaDeConhecimento;
-    }
 }

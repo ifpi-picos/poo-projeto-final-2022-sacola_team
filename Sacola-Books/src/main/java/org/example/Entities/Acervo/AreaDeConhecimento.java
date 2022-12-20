@@ -2,8 +2,8 @@ package org.example.Entities.Acervo;
 
 public class AreaDeConhecimento {
     private Long idAreaDeConhecimento;
-    private String tituloDaArea;
-    private String descricao;
+    private final String tituloDaArea;
+    private final String descricao;
 
     public AreaDeConhecimento(Long idAreaDeConhecimento, String tituloDaArea, String descricao) {
         this.idAreaDeConhecimento = idAreaDeConhecimento;
@@ -23,15 +23,8 @@ public class AreaDeConhecimento {
         return tituloDaArea;
     }
 
-    public void setTituloDaArea(String tituloDaArea) {
-        this.tituloDaArea = tituloDaArea;
-    }
-
     public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
 }

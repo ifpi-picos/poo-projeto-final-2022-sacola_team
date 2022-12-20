@@ -8,10 +8,7 @@ import org.example.Entities.Acervo.Livro;
 import org.example.Entities.SistemaDasTelas.FuncionarioSys;
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -20,6 +17,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class AlterarLivro extends JDialog {
+    BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+    FuncionarioSys funcionarioSys = new FuncionarioSys();
+    Long idLivro;
     private JTextField tfTitulo;
     private JTextField tfAutor;
     private JComboBox<String> cbAreaDeConhecimento;
@@ -29,9 +29,6 @@ public class AlterarLivro extends JDialog {
     private JButton btCancelar;
     private JPanel MainPanel;
 
-    BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
-    FuncionarioSys funcionarioSys = new FuncionarioSys();
-    Long idLivro;
 
     public AlterarLivro(JFrame parent) {
         super(parent, "Alterar Livro", true);
@@ -42,26 +39,24 @@ public class AlterarLivro extends JDialog {
         this.setLocationRelativeTo(null);
 
 
-        btAlterar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    alterarLivro();
-                    GerenciarAcervo gerenciarAcervo = new GerenciarAcervo(parent);
-                    gerenciarAcervo.setVisible(true);
-                } catch (ParseException ex) {
-                    throw new RuntimeException(ex);
-                }
+        btAlterar.addActionListener(e -> {
+            try {
+                alterarLivro();
+                GerenciarAcervo gerenciarAcervo = new GerenciarAcervo(parent);
+                gerenciarAcervo.setVisible(true);
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
             }
         });
-        btCancelar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        btCancelar.addActionListener(e -> dispose());
     }
 
+    public static void main(String[] args) {
+        AlterarLivro dialog = new AlterarLivro(new JFrame());
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
+    }
 
     private void alterarLivro() throws ParseException {
         String titulo = tfTitulo.getText();
@@ -85,7 +80,7 @@ public class AlterarLivro extends JDialog {
     }
 
     public Long pegarIdLivro() {
-        List<Livro> listaDeLivros = bibliotecaDAO.findAll();
+        List<Livro> listaDeLivros = bibliotecaDAO.findAllLivros();
         StringBuilder livros = new StringBuilder();
         for (Livro livro : listaDeLivros) {
             livros.append(livro.getIdLivro()).append(" - ").append(livro.getTitulo()).append("\n");
@@ -93,14 +88,15 @@ public class AlterarLivro extends JDialog {
         return Long.parseLong(JOptionPane.showInputDialog("Digite o ID do livro que deseja Alterar: \n" + livros));
     }
 
-
     public void preencherCampos() {
         Optional<Livro> livro = bibliotecaDAO.findLivroById(idLivro);
-        tfTitulo.setText(livro.get().getTitulo());
-        tfAutor.setText(livro.get().getAutor());
-        cbAreaDeConhecimento.setSelectedItem(livro.get().getIdAreaDeConhecimento());
-        tfDataDePublicacao.setText(String.valueOf(livro.get().getDataDePublicacao()));
-        spQuantidadeDeCopias.setValue(livro.get().getQuantidadeDeCopias());
+        if (livro.isPresent()) {
+            tfTitulo.setText(livro.get().getTitulo());
+            tfAutor.setText(livro.get().getAutor());
+            cbAreaDeConhecimento.setSelectedItem(livro.get().getIdAreaDeConhecimento());
+            tfDataDePublicacao.setText(String.valueOf(livro.get().getDataDePublicacao()));
+            spQuantidadeDeCopias.setValue(livro.get().getQuantidadeDeCopias());
+        }
     }
 
     public void preencherComboBox() {
@@ -124,14 +120,6 @@ public class AlterarLivro extends JDialog {
     public void limitarSpinner() {
         SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(1, 1, 100, 1);
         spQuantidadeDeCopias.setModel(spinnerNumberModel);
-    }
-
-
-    public static void main(String[] args) {
-        AlterarLivro dialog = new AlterarLivro(new JFrame());
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 
     {

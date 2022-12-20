@@ -1,6 +1,7 @@
 package org.example.Entities.Usuarios;
 
-public record Endereco(Long idEndereco, String rua, String numero, String bairro, String cidade, String estado, String cep) {
+public record Endereco(Long idEndereco, String rua, String numero, String bairro, String cidade, String estado,
+                       String cep) {
     @Override
     public String rua() {
         return rua;
@@ -31,8 +32,5 @@ public record Endereco(Long idEndereco, String rua, String numero, String bairro
         return cep;
     }
 
-    public void setIdEndereco(long aLong) {
-
-    }
 }
 

@@ -4,11 +4,11 @@ import java.sql.Date;
 
 public class Usuario {
     private Long idUsuario;
-    private String nome;
-    private String email;
-    private Date dataDeNascimento;
-    private String cpf;
-    private String tipoDeUsuario;
+    private final String nome;
+    private final String email;
+    private final Date dataDeNascimento;
+    private final String cpf;
+    private final String tipoDeUsuario;
 
     public Usuario(Long idUsuario, String nome, String cpf, Date dataDeNascimento, String email, String tipoDeUsuario) {
         this.idUsuario = idUsuario;
@@ -19,10 +19,6 @@ public class Usuario {
         this.tipoDeUsuario = tipoDeUsuario;
     }
 
-    public boolean isPunido() {
-        return false;
-    }
-
     public Long getIdUsuario() {
         return idUsuario;
     }
@@ -30,43 +26,25 @@ public class Usuario {
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
+
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Date getDataDeNascimento() {
         return dataDeNascimento;
-    }
-
-    public void setDataDeNascimento(Date dataDeNascimento) {
-        this.dataDeNascimento = dataDeNascimento;
     }
 
     public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public String getTipoDeUsuario() {
         return tipoDeUsuario;
     }
 
-    public void setTipoDeUsuario(String tipoDeUsuario) {
-        this.tipoDeUsuario = tipoDeUsuario;
-    }
 }

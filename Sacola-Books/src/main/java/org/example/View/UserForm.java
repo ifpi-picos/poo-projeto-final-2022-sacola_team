@@ -23,7 +23,6 @@ public class UserForm extends JDialog {
     private JButton sairButton;
     private JPanel MainPanel;
 
-
     public UserForm(JFrame parent) {
         super(parent, "Biblioteca", true);
         this.setContentPane(MainPanel);
@@ -54,8 +53,6 @@ public class UserForm extends JDialog {
 
                 bibliotecaSys.devolverLivroUsuario();
 
-            } else if (e.getSource() == multasButton) {
-
             } else if (e.getSource() == sairButton) {
                 System.exit(0);
             }
@@ -65,11 +62,6 @@ public class UserForm extends JDialog {
         emprestimoButton.addActionListener(listener);
         multasButton.addActionListener(listener);
         sairButton.addActionListener(listener);
-    }
-
-    public static void main(String[] args) {
-        UserForm userForm = new UserForm(null);
-        userForm.setVisible(true);
     }
 
     {

@@ -64,7 +64,7 @@
           <text value="Usuário:"/>
         </properties>
       </component>
-      <component id="1c395" class="javax.swing.JTextField" binding="tfUsuário">
+      <component id="1c395" class="javax.swing.JTextField" binding="tfUsuario">
         <constraints>
           <grid row="15" column="6" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -129,7 +129,7 @@
           <text value="Tipo de usuário:"/>
         </properties>
       </component>
-      <component id="696b4" class="javax.swing.JComboBox" binding="cbTipoDeUsuário">
+      <component id="696b4" class="javax.swing.JComboBox" binding="cbTipoDeUsuario">
         <constraints>
           <grid row="17" column="6" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -449,7 +449,7 @@
           <text value="Número:"/>
         </properties>
       </component>
-      <component id="fd29e" class="javax.swing.JTextField" binding="tfNúmero">
+      <component id="fd29e" class="javax.swing.JTextField" binding="tfNumero">
         <constraints>
           <grid row="7" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>

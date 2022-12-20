@@ -4,14 +4,13 @@ import java.sql.Date;
 
 public class Emprestimo {
     private Long idEmprestimo;
-    private Long cod_Livro;
-    private Long idUsuario;
-    private Date dataDeEmprestimo;
-    private Date dataDeDevolucao;
-    private Boolean foiDevolvido;
+    private final Long cod_Livro;
+    private final Long idUsuario;
+    private final Date dataDeEmprestimo;
+    private final Date dataDeDevolucao;
+    private final Boolean foiDevolvido;
 
-    public Emprestimo(Long idEmprestimo, Long cod_Livro, Long idUsuario, Date dataDeEmprestimo, Date dataDeDevolucao, Boolean foiDevolvido) {
-        this.idEmprestimo = idEmprestimo;
+    public Emprestimo(Long cod_Livro, Long idUsuario, Date dataDeEmprestimo, Date dataDeDevolucao, Boolean foiDevolvido) {
         this.cod_Livro = cod_Livro;
         this.idUsuario = idUsuario;
         this.dataDeEmprestimo = dataDeEmprestimo;
@@ -19,51 +18,29 @@ public class Emprestimo {
         this.foiDevolvido = foiDevolvido;
     }
 
-    public Long getIdEmprestimo() {
-        return idEmprestimo;
-    }
 
-    public void setIdEmprestimo(Long idEmprestimo) {
-        this.idEmprestimo = idEmprestimo;
-    }
 
     public Long getCod_Livro() {
         return cod_Livro;
-    }
-
-    public void setCod_Livro(Long cod_Livro) {
-        this.cod_Livro = cod_Livro;
     }
 
     public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
     public Date getDataDeEmprestimo() {
         return dataDeEmprestimo;
-    }
-
-    public void setDataDeEmprestimo(Date dataDeEmprestimo) {
-        this.dataDeEmprestimo = dataDeEmprestimo;
     }
 
     public Date getDataDeDevolucao() {
         return dataDeDevolucao;
     }
 
-    public void setDataDeDevolucao(Date dataDeDevolucao) {
-        this.dataDeDevolucao = dataDeDevolucao;
-    }
-
     public Boolean isFoiDevolvido() {
         return foiDevolvido;
     }
 
-    public void setFoiDevolvido(Boolean foiDevolvido) {
-        this.foiDevolvido = foiDevolvido;
+    public void setIdEmprestimo() {
+        this.idEmprestimo = idEmprestimo;
     }
 }

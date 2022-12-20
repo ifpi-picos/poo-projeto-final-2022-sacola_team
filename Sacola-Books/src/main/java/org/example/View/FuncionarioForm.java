@@ -6,15 +6,12 @@ import com.intellij.uiDesigner.core.Spacer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class FuncionarioForm extends JDialog {
     private JButton gerenciarAcervoButton;
     private JButton gerenciarUsuariosButton;
     private JButton SAIRButton;
     private JPanel MainPanel;
-
 
     public FuncionarioForm(JFrame parent) {
         super(parent, "FuncionarioForm", true);
@@ -25,28 +22,19 @@ public class FuncionarioForm extends JDialog {
         this.setSize(400, 300);
 
 
-        gerenciarAcervoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                GerenciarAcervo gerenciarAcervo = new GerenciarAcervo(null);
-                gerenciarAcervo.setVisible(true);
-            }
+        gerenciarAcervoButton.addActionListener(e -> {
+            dispose();
+            GerenciarAcervo gerenciarAcervo = new GerenciarAcervo(null);
+            gerenciarAcervo.setVisible(true);
         });
-        gerenciarUsuariosButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                GerenciarUsuario gerenciarUsuarios = new GerenciarUsuario(null);
-                gerenciarUsuarios.setVisible(true);
-            }
+        gerenciarUsuariosButton.addActionListener(e -> {
+            dispose();
+            GerenciarUsuario gerenciarUsuarios = new GerenciarUsuario(null);
+            gerenciarUsuarios.setVisible(true);
         });
-        SAIRButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                System.exit(0);
-            }
+        SAIRButton.addActionListener(e -> {
+            dispose();
+            System.exit(0);
         });
     }
 

@@ -25,7 +25,7 @@
           <text value="SAIR"/>
         </properties>
       </component>
-      <component id="ce9b7" class="javax.swing.JButton" binding="removerUsuárioButton" default-binding="true">
+      <component id="ce9b7" class="javax.swing.JButton" binding="removerUsuarioButton" default-binding="true">
         <constraints>
           <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -33,7 +33,7 @@
           <text value="Remover usuário"/>
         </properties>
       </component>
-      <component id="7526d" class="javax.swing.JButton" binding="listarUsuáriosButton" default-binding="true">
+      <component id="7526d" class="javax.swing.JButton" binding="listarUsuariosButton" default-binding="true">
         <constraints>
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -41,7 +41,7 @@
           <text value="Listar usuários"/>
         </properties>
       </component>
-      <component id="8b176" class="javax.swing.JButton" binding="alterarUsuárioButton" default-binding="true">
+      <component id="8b176" class="javax.swing.JButton" binding="alterarUsuarioButton" default-binding="true">
         <constraints>
           <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -49,7 +49,7 @@
           <text value="Alterar usuário"/>
         </properties>
       </component>
-      <component id="d8f30" class="javax.swing.JButton" binding="registrarUsuárioButton" default-binding="true">
+      <component id="d8f30" class="javax.swing.JButton" binding="registrarUsuarioButton" default-binding="true">
         <constraints>
           <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
