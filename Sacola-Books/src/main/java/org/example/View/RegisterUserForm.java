@@ -125,7 +125,7 @@ public class RegisterUserForm extends JDialog {
             JOptionPane.showMessageDialog(this, "A data de nascimento deve estar no formato dd/mm/aaaa");
         }
 
-        Usuario ObjUsuario = new Usuario(null, nome, email, dataNascimentoFormatada, cpf, tipoDeUsuario);
+        Usuario ObjUsuario = new Usuario(null, nome, cpf, dataNascimentoFormatada, email, tipoDeUsuario);
         Endereco ObjEndereco = new Endereco(null, rua, numero, bairro, cidade, estado, cep);
         Telefone ObjTelefone = new Telefone(telefone);
 
