@@ -48,27 +48,6 @@ public class UsuarioDAO {
     }
 
 
-    public void updateUsuario(Usuario usuario) {
-        try (Connection connection = ConnectionFactory.getConnection()) {
-            String sql = "UPDATE usuarios SET nome = ?, cpf = ?, dataDeNascimento = ?, email = ?, tipoDeUsuario = ? WHERE idUsuario = ?";
-
-            assert connection != null;
-            PreparedStatement pstm = connection.prepareStatement(sql);
-            pstm.setString(1, usuario.getNome());
-            pstm.setString(2, usuario.getCpf());
-            pstm.setDate(3, new java.sql.Date(usuario.getDataDeNascimento().getTime()));
-            pstm.setString(4, usuario.getEmail());
-            pstm.setString(5, usuario.getTipoDeUsuario());
-            pstm.setLong(6, usuario.getIdUsuario());
-
-            pstm.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
     public void deleteUsuario(Long id) {
         try (Connection connection = ConnectionFactory.getConnection()) {
             String sql = "DELETE FROM usuarios WHERE idUsuario = ?";
@@ -160,24 +139,7 @@ public class UsuarioDAO {
         }
     }
 
-    public void updateEndereco(Endereco endereco, Long idUsuario) {
-        try (Connection connection = ConnectionFactory.getConnection()) {
-            String sql = "UPDATE enderecos SET rua = ?, num = ?, bairro = ?, cidade = ?, estado = ?, cep = ? WHERE idUsuario = ?";
-            assert connection != null;
-            PreparedStatement pstm = connection.prepareStatement(sql);
-            pstm.setString(1, endereco.rua());
-            pstm.setString(2, endereco.numero());
-            pstm.setString(3, endereco.bairro());
-            pstm.setString(4, endereco.cidade());
-            pstm.setString(5, endereco.estado());
-            pstm.setString(6, endereco.cep());
-            pstm.setLong(7, idUsuario);
-            pstm.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
     public Optional<Endereco> FindEnderecoByIdUsuario(Long idUsuario) {
@@ -218,22 +180,6 @@ public class UsuarioDAO {
             PreparedStatement pstm = connection.prepareStatement(sql);
             pstm.setLong(1, idUsuario);
             pstm.setString(2, telefone.numero());
-            pstm.executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    public void updateTelefone(Telefone telefone, Long idUsuario) {
-        try (Connection connection = ConnectionFactory.getConnection()) {
-            String sql = "UPDATE telefones SET numero = ? WHERE idUsuario = ?";
-
-            assert connection != null;
-            PreparedStatement pstm = connection.prepareStatement(sql);
-            pstm.setString(1, telefone.numero());
-            pstm.setLong(2, idUsuario);
             pstm.executeUpdate();
 
         } catch (SQLException e) {
